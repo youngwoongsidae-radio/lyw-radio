@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>영웅시대 글로벌 플레이리스트</title>
-<meta name="description" content="IM HERO 10 글로벌 플레이리스트 — 스포티파이, 애플뮤직, 국내 음원까지 한 번에.">
+<meta name="description" content="IM HERO 10 글로벌 플레이리스트 — 스포티파이, 애플뮤직, 유튜브뮤직, 국내 음원까지 한 번에.">
 <meta property="og:title" content="영웅시대 글로벌 플레이리스트">
-<meta property="og:description" content="누르면 바로 재생됩니다. 스포티파이 · 애플뮤직 · 국내 음원">
+<meta property="og:description" content="누르면 바로 재생됩니다. 스포티파이 · 애플뮤직 · 유튜브뮤직 · 국내 음원">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://youngwoongsidae-radio.github.io/lyw-radio/playlist/">
 <meta property="og:image" content="https://youngwoongsidae-radio.github.io/lyw-radio/playlist/og.jpg">
@@ -44,7 +44,15 @@ var GLOBAL = [
       { label: "TOP HERO 1",     songs: "60곡",  time: "", url: "https://music.apple.com/kr/playlist/global-playlist-ver-im-hero-10-feat-high-valley-top-hero-1/pl.u-leyl1MGHd5amdN" },
       { label: "또또",           songs: "48곡",  time: "", url: "https://music.apple.com/kr/playlist/%EC%88%9C%EA%B0%84%EC%9D%84-%EC%98%81%EC%9B%90%EC%B2%98%EB%9F%BC/pl.u-aZb0ke6T18b9DM8" },
       { label: "애플과 우주웅",   songs: "",      time: "", url: "https://music.apple.com/kr/playlist/%EC%95%A0%ED%94%8C%EA%B3%BC-%EC%9A%B0%EC%A3%BC%EC%9B%85/pl.u-9N9L2a3F1b52GEb" },
-      { label: "별빛 품은 우주웅", songs: "",      time: "", url: "https://music.apple.com/kr/playlist/%EB%B3%84%EB%B9%9B%ED%92%88%EC%9D%80%EC%9A%B0%EC%A3%BC%EC%9B%85/pl.u-V9D7v0KC3Z7qVpZ" }
+      { label: "별빛 품은 우주웅", songs: "",      time: "", url: "https://music.apple.com/kr/playlist/%EB%B3%84%EB%B9%9B%ED%92%88%EC%9D%80%EC%9A%B0%EC%A3%BC%EC%9B%85/pl.u-V9D7v0KC3Z7qVpZ" },
+      { label: "부디 행복해질 것", songs: "131곡", time: "", url: "https://music.apple.com/kr/playlist/%EB%B6%80%EB%94%94-%ED%96%89%EB%B3%B5%ED%95%B4%EC%A7%88-%EA%B2%83/pl.u-8aAVZ5jHvYXgyeB" },
+      { label: "또또~ 모이세!",   songs: "79곡",  time: "", url: "https://music.apple.com/kr/playlist/%EB%98%90%EB%98%90-%EB%AA%A8%EC%9D%B4%EC%84%B8/pl.u-8aAVZy9IvYXgyeB" }
+  ]},
+  { name: "유튜브뮤직", color: "#0F0F0F", ink: "#FF4B4B", links: [
+      { label: "유튜브와 우주웅",        songs: "", time: "", url: "https://music.youtube.com/playlist?list=PLDa3MKg6jYaQ" },
+      { label: "임영웅 우주비행사 또또", songs: "", time: "", url: "https://music.youtube.com/playlist?list=PLxldk8IYGOrVEuVc6d8bfo0yXnw9Tmr9p" },
+      { label: "임영웅 우주비행사 2",    songs: "", time: "", url: "https://music.youtube.com/playlist?list=PLxldk8IYGOrV_PNX45CHL14RUwerh6R4D" },
+      { label: "임영웅 우주비행사 3",    songs: "", time: "", url: "https://music.youtube.com/playlist?list=PLxldk8IYGOrUn5DUZ4V2ytkt2t44h0eIk" }
   ]}
 ];
 
@@ -278,7 +286,7 @@ var PHOTOS = [
   function has(v){ return (v || '').trim() !== ''; }
 
   /* 사진을 어디에 끼울지 — 카드 순서(0부터) : 사진 번호 */
-  var GLOBAL_PHOTO   = { 0: 2, 1: 3 };   /* 스포티파이 뒤 2번, 애플뮤직 뒤 3번 */
+  var GLOBAL_PHOTO   = { 0: 2, 2: 3 };   /* 스포티파이 뒤 2번, 유튜브뮤직 뒤 3번 */
   var DOMESTIC_PHOTO = { 1: 4, 3: 5 };   /* 지니 뒤 4번, 바이브 뒤 5번 */
 
   function band(n, parent){
