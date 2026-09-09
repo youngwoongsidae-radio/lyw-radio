@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>영웅시대 멜론 총공</title>
+
+<meta name="description" content="임영웅 또또 · 바일라 멜론 총공 — 누르면 바로 재생, 인증까지 한 번에.">
+<meta property="og:title" content="영웅시대 멜론 총공">
+<meta property="og:description" content="누르면 바로 재생됩니다. 본인 계정으로 편하게 들어주세요.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0C2340">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+
+<script>
+/* ───────────────────────────────────────────────
+   여기만 고치시면 됩니다.
+   ─────────────────────────────────────────────── */
+
+/* 멜론 링크 (플레이리스트 페이지와 같은 주소) */
+var LINKS = {
+  and1: "https://tinyurl.com/3hec36an",
+  and2: "https://tinyurl.com/vz59jshx",
+  iphone: "https://tinyurl.com/u6nepbxd",
+  ipad: "https://tinyurl.com/ms4h8wek"
+};
+
+/* 인증할 때 자동으로 입력될 문구 */
+var CERT_TEXT = "오늘도 멜론으로 응원했습니다 🤍\n#임영웅_또또_응원해\n#임영웅_바일라_응원해";
+</script>
+
+<style>
+  :root{
+    --navy:#0C2340;
+    --card:#143355;
+    --line:#2A4A6E;
+    --ivory:#F2EDE2;
+    --dim:#A9BACD;
+    --gold:#C9A227;
+    --melon:#00CD3C;
+    --done:#1E7A3C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--navy);
+    background-image:radial-gradient(120% 60% at 50% 0%, #17406B 0%, #0C2340 60%);
+    background-attachment:fixed;
+    color:var(--ivory);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 18px 60px}
+  a{text-decoration:none;color:inherit}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+  header{padding:34px 0 26px;text-align:center}
+  h1{
+    font-family:"Gowun Batang",serif;font-weight:700;
+    font-size:clamp(27px,7.6vw,38px);line-height:1.3;
+  }
+  .rule{width:44px;height:2px;background:var(--gold);margin:16px auto 14px;border-radius:2px}
+  .lede{color:var(--dim);font-size:16px}
+
+  /* 기기 안내 */
+  .device{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:12px 14px;margin-bottom:18px;
+    font-size:15.5px;color:var(--dim);text-align:center;
+  }
+  .device b{color:var(--ivory);font-weight:700}
+  .switch{
+    margin-left:2px;background:none;border:0;
+    color:var(--gold);font-size:14.5px;font-family:inherit;
+    text-decoration:underline;text-underline-offset:3px;cursor:pointer;
+  }
+
+  /* 단계 */
+  .step{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:20px;margin-bottom:12px;
+    transition:border-color .3s ease;
+  }
+  .step.done{border-color:var(--done)}
+  .step-head{display:flex;align-items:center;gap:10px}
+  .num{
+    flex:none;width:26px;height:26px;border-radius:50%;
+    background:var(--line);color:var(--ivory);
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:700;
+  }
+  .step.done .num{background:var(--done)}
+  .step-head h2{
+    font-family:"Gowun Batang",serif;font-size:20px;font-weight:700;
+  }
+  .step p.sub{color:var(--dim);font-size:14.5px;margin-top:6px;line-height:1.5}
+  .btns{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    min-height:58px;padding:10px 16px;border:0;width:100%;
+    border-radius:11px;font-size:18px;font-weight:700;
+    font-family:inherit;cursor:pointer;text-align:center;line-height:1.3;
+    background:var(--melon);color:#08301A;
+  }
+  .btn.x{background:var(--ivory);color:#111}
+  .btn.ghost{
+    background:transparent;color:var(--ivory);
+    border:1px solid var(--line);font-size:16.5px;min-height:50px;
+  }
+  .btn .tick{font-size:16px;opacity:0}
+  .btn.hit .tick{opacity:1}
+  .btn.hit{filter:brightness(.82)}
+  @media (hover:hover){.btn:hover{filter:brightness(1.08)}}
+
+  .hidden{display:none}
+
+  .copybox{
+    margin-top:12px;background:#0E2A48;border:1px solid var(--line);
+    border-radius:11px;padding:13px 14px;
+    font-size:15.5px;color:var(--ivory);white-space:pre-line;line-height:1.55;
+  }
+
+  .note{
+    margin-top:22px;padding:16px 18px;
+    border:1px solid var(--line);border-radius:14px;
+    color:var(--dim);font-size:15px;line-height:1.75;
+  }
+  .note b{color:var(--ivory)}
+  footer{
+    margin-top:26px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--dim);font-size:14.5px;line-height:1.8;text-align:center;
+  }
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);
+    background:var(--ivory);color:#111;font-size:15.5px;font-weight:700;
+    padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease;
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>영웅시대<br>멜론 총공</h1>
+    <div class="rule"></div>
+    <p class="lede">또또 · 바일라</p>
+  </header>
+
+  <div class="device">
+    <span>지금 기기 : <b id="devName">확인 중</b></span>
+    <button class="switch" id="switchBtn" type="button">다른 기기</button>
+  </div>
+
+  <section class="step" id="s1">
+    <div class="step-head"><span class="num">1</span><h2>멜론 로그인</h2></div>
+    <p class="sub">멜론 앱을 열어 로그인 상태인지만 확인해 주세요. 로그인이 되어 있어야 들으신 것이 반영됩니다.</p>
+  </section>
+
+  <section class="step" id="s2">
+    <div class="step-head"><span class="num">2</span><h2>눌러서 듣기</h2></div>
+    <p class="sub" id="s2sub"></p>
+    <div class="btns" id="playBtns"></div>
+  </section>
+
+  <section class="step" id="s3">
+    <div class="step-head"><span class="num">3</span><h2>인증하기</h2></div>
+    <p class="sub">문구는 미리 채워져 있습니다. 그대로 올리시면 됩니다.</p>
+    <div class="copybox" id="certBox"></div>
+    <div class="btns">
+      <a class="btn x" id="xBtn" href="#" target="_blank" rel="noopener">X에 인증하기</a>
+      <button class="btn ghost" id="copyBtn" type="button">문구만 복사하기</button>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>본인 계정으로 편하게 들어주세요. 그리고 인증입니다.</b><br>
+    멜론 앱이 설치되어 있어야 열립니다. 카톡에서 눌렀을 때 열리지 않으면
+    오른쪽 아래 ⋯ 를 눌러 <b>다른 브라우저로 열기</b>를 해주세요.
+  </div>
+
+  <footer>
+    <p>영웅시대 · 매일 함께해 주셔서 고맙습니다 🤍</p>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast">복사했습니다</div>
+
+<script>
+(function(){
+  var ua = navigator.userAgent || "";
+  var isIPad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var isIOS  = /iPhone|iPod/.test(ua);
+  var isAnd  = /Android/.test(ua);
+
+  var MODES = ["and","iphone","ipad"];
+  var NAMES = { and:"안드로이드", iphone:"아이폰", ipad:"아이패드" };
+
+  var mode = isIPad ? "ipad" : (isIOS ? "iphone" : (isAnd ? "and" : "and"));
+  var forced = null;
+  try { forced = localStorage.getItem("lywMelonMode"); } catch(e){}
+  if (forced && NAMES[forced]) mode = forced;
+
+  var todayKey = "lywMelonDone:" + new Date().toISOString().slice(0,10);
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(todayKey) || "{}"); } catch(e){ done = {}; }
+
+  function save(){
+    try { localStorage.setItem(todayKey, JSON.stringify(done)); } catch(e){}
+  }
+
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("on");
+    clearTimeout(t._t);
+    t._t = setTimeout(function(){ t.classList.remove("on"); }, 1600);
+  }
+
+  function checkStep2(){
+    var need = (mode === "and") ? ["and1","and2"] : [mode === "iphone" ? "iphone" : "ipad"];
+    var all = need.every(function(k){ return done[k]; });
+    document.getElementById("s2").classList.toggle("done", all);
+  }
+
+  function render(){
+    document.getElementById("devName").textContent = NAMES[mode];
+
+    var sub = document.getElementById("s2sub");
+    var box = document.getElementById("playBtns");
+    box.innerHTML = "";
+
+    var items;
+    if (mode === "and") {
+      sub.textContent = "1번을 누르고, 멜론이 열리면 돌아와서 2번도 눌러주세요. 두 번 다 눌러야 16곡이 모두 담깁니다.";
+      items = [
+        { key:"and1", label:"1번 누르기 · 7곡", url:LINKS.and1 },
+        { key:"and2", label:"2번 누르기 · 9곡", url:LINKS.and2 }
+      ];
+    } else if (mode === "iphone") {
+      sub.textContent = "한 번만 누르시면 16곡이 모두 재생됩니다.";
+      items = [ { key:"iphone", label:"눌러서 듣기 · 16곡", url:LINKS.iphone } ];
+    } else {
+      sub.textContent = "한 번만 누르시면 16곡이 모두 재생됩니다.";
+      items = [ { key:"ipad", label:"눌러서 듣기 · 16곡", url:LINKS.ipad } ];
+    }
+
+    items.forEach(function(it){
+      var a = document.createElement("a");
+      a.className = "btn" + (done[it.key] ? " hit" : "");
+      a.href = it.url;
+      a.innerHTML = '<span class="tick">✓</span><span>' + it.label + '</span>';
+      a.addEventListener("click", function(){
+        done[it.key] = 1;
+        save();
+        a.classList.add("hit");
+        checkStep2();
+      });
+      box.appendChild(a);
+    });
+
+    checkStep2();
+  }
+
+  document.getElementById("switchBtn").addEventListener("click", function(){
+    var i = MODES.indexOf(mode);
+    mode = MODES[(i + 1) % MODES.length];
+    try { localStorage.setItem("lywMelonMode", mode); } catch(e){}
+    render();
+  });
+
+  /* 인증 문구 */
+  document.getElementById("certBox").textContent = CERT_TEXT;
+  document.getElementById("xBtn").href =
+    "https://x.com/intent/tweet?text=" + encodeURIComponent(CERT_TEXT);
+
+  document.getElementById("xBtn").addEventListener("click", function(){
+    document.getElementById("s3").classList.add("done");
+  });
+
+  document.getElementById("copyBtn").addEventListener("click", function(){
+    var ok = function(){ toast("복사했습니다"); document.getElementById("s3").classList.add("done"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(CERT_TEXT).then(ok, fallback);
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = CERT_TEXT;
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); }
+      catch(e){ toast("길게 눌러 복사해 주세요"); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
