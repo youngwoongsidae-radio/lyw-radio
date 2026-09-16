@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>라디오 신청</title>
+<meta name="description" content="원클릭 라디오 신청">
+   <meta property="og:title" content="임영웅 또또 라디오 신청">
+<meta property="og:description" content="누르면 문자창이 바로 열립니다 — 원클릭 라디오 신청">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://youngwoongsidae-radio.github.io/lyw-radio/">
+<meta property="og:image" content="https://youngwoongsidae-radio.github.io/lyw-radio/cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<style>
+header::before{content:"";display:block;background:url(cover.jpg) center/cover no-repeat;
+aspect-ratio:1200/630;border-radius:14px;margin:20px 0 4px}
+</style>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ① 여기만 고치면 됩니다
+   ══════════════════════════════════════════════════════════════ */
+
+const SONG   = "또또";      // 곡명. 컴백하면 여기만 바꾸세요.
+const ARTIST = "임영웅";     // 아티스트명. 비워두면 표시하지 않습니다.
+
+// 문자 본문 — 비워두는 것을 권합니다.
+// 똑같은 문구가 대량으로 들어가면 방송국에서 걸러냅니다.
+// 사연은 각자 쓰고, 곡명은 위의 [곡명 복사] 버튼으로 붙여넣게 하세요.
+const BODY = "";
+
+/* ── 편성 목록 ── */
+
+const STATIONS = [
+
+  /* ── 1. MBC 표준FM  #8001 ── */
+  { st:"MBC 표준FM", pg:"낭만가요",                        from:"01:00", to:"05:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"여성시대 양희은, 김일중입니다",      from:"09:05", to:"11:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"손태진의 트로트 라디오",             from:"12:20", to:"14:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"박준형, 박영진의 2시만세",           from:"14:00", to:"16:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"정선희, 문천식의 지금은 라디오시대",  from:"16:05", to:"18:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"김현철의 디스크쇼",                 from:"22:00", to:"24:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"신혜림의 골든디스크",               from:"24:00", to:"01:00", sms:"#8001", board:"" },
+
+  /* ── 2. MBC FM4U  #8000 ── */
+  { st:"MBC FM4U",   pg:"세상을 여는 아침 이영은입니다",      from:"06:00", to:"07:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"굿모닝FM 테이입니다",               from:"07:00", to:"09:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"오늘 아침 윤상입니다",              from:"09:00", to:"11:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"안녕하세요 이문세입니다",            from:"11:00", to:"12:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"정오의 희망곡 김신영입니다",         from:"12:00", to:"14:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"두시의 데이트 안영미입니다",         from:"14:00", to:"16:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"완벽한 하루 이상순입니다",           from:"16:00", to:"18:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"윤태진의 FM데이트",                 from:"20:00", to:"22:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"김이나의 별이 빛나는 밤에",          from:"22:00", to:"24:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"친한친구 이현입니다",               from:"24:00", to:"02:00", sms:"#8000", board:"" },
+
+  /* ── 3. SBS 파워FM  #1077 ── */
+  { st:"SBS 파워FM", pg:"애프터클럽",                       from:"01:00", to:"03:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"이인권의 펀펀투데이",                from:"05:00", to:"07:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"김영철의 파워FM",                   from:"07:00", to:"09:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"아름다운 이 아침 봉태규입니다",       from:"09:00", to:"11:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"12시엔 주현영",                     from:"12:00", to:"14:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"두시탈출 컬투쇼",                    from:"14:00", to:"16:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"황제성의 황제파워",                  from:"16:00", to:"18:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"박소현의 러브게임",                  from:"18:00", to:"20:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"웬디의 영스트리트",                  from:"20:00", to:"22:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"배성재의 텐",                       from:"22:00", to:"23:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"딘딘의 Music High",                 from:"23:00", to:"01:00", sms:"#1077", board:"" },
+
+  /* ── 4. SBS 러브FM  #1035 ── */
+  { st:"SBS 러브FM", pg:"최영주의 아침편지",                  from:"05:00", to:"07:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"이숙영의 러브FM",                   from:"09:05", to:"11:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"박세미의 수다가 체질",               from:"12:00", to:"14:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"유민상의 배고픈 라디오",             from:"14:20", to:"16:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"6시 저녁바람 김창완입니다",           from:"18:05", to:"20:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"그대의 밤 정엽입니다",               from:"20:05", to:"22:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"최백호의 낭만시대",                  from:"22:00", to:"24:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"심야방송반",                        from:"24:00", to:"02:00", sms:"#1035", board:"" },
+
+  /* ── 5. KBS Cool FM  #8910 ── */
+  { st:"KBS Cool FM", pg:"상쾌한 아침",                      from:"05:00", to:"06:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"조정식의 FM대행진",                 from:"07:00", to:"09:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"이현우의 음악앨범",                 from:"09:00", to:"11:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"박명수의 라디오쇼",                 from:"11:00", to:"12:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"이은지의 가요광장",                 from:"12:00", to:"14:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"하하의 슈퍼라디오",                 from:"14:00", to:"16:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"윤정수, 남창희의 미스터라디오",      from:"16:00", to:"18:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"사랑하기 좋은날 이금희입니다",       from:"18:00", to:"20:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"오마이걸 효정의 볼륨을 높여요",      from:"20:00", to:"22:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"한해의 키스 더 라디오",             from:"22:00", to:"24:00", sms:"#8910", board:"" },
+
+  /* ── 6. KBS Happy FM  #1061 ── */
+  { st:"KBS Happy FM", pg:"우리의 아침 조경아입니다",          from:"07:00", to:"09:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"주현미의 러브레터",                from:"09:00", to:"11:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"임백천의 백뮤직",                  from:"12:00", to:"14:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"은가은의 빛나는 트로트",           from:"14:00", to:"16:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"이본의 라라랜드",                  from:"16:00", to:"18:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"스윗 드라이브 인호진입니다",        from:"18:00", to:"20:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"유지원의 밤을 잊은 그대에게",       from:"22:00", to:"24:00", sms:"#1061", board:"" },
+
+  /* ── 7. CBS 음악FM  #9390 ── */
+  { st:"CBS 음악FM", pg:"이수영의 12시에 만납시다",           from:"12:00", to:"14:00", sms:"#9390", board:"" },
+  { st:"CBS 음악FM", pg:"박승화의 가요속으로",                from:"16:00", to:"18:00", sms:"#9390", board:"" },
+  { st:"CBS 음악FM", pg:"김현주의 행복한 동행",               from:"20:00", to:"22:00", sms:"#9390", board:"" },
+  { st:"CBS 음악FM", pg:"허윤희의 꿈과 음악 사이에",          from:"22:00", to:"24:00", sms:"#9390", board:"" },
+
+  /* ── 8. TBS 교통방송  #0951 ── */
+  { st:"TBS 교통방송", pg:"최일구의 허리케인 라디오",          from:"14:00", to:"16:00", sms:"#0951", board:"" },
+
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ② 아래는 손대지 않으셔도 됩니다
+   ══════════════════════════════════════════════════════════════ */
+</script>
+
+<style>
+:root{
+  --bg:#F4F3F0; --card:#FFFFFF; --ink:#17181C; --ink2:#43464E;
+  --muted:#71747C; --line:#E4E2DD; --line2:#EFEDE9;
+  --live:#C4382F; --live-bg:#FBEFED;
+  --btn:#17181C; --btn-ink:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121317; --card:#1B1D22; --ink:#EDECE8; --ink2:#C2C3C0;
+    --muted:#8E9099; --line:#2A2D34; --line2:#23262C;
+    --live:#EC7264; --live-bg:#2C1F1E;
+    --btn:#EDECE8; --btn-ink:#121317;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121317; --card:#1B1D22; --ink:#EDECE8; --ink2:#C2C3C0;
+  --muted:#8E9099; --line:#2A2D34; --line2:#23262C;
+  --live:#EC7264; --live-bg:#2C1F1E;
+  --btn:#EDECE8; --btn-ink:#121317;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",
+              "Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  padding:0 0 max(40px,env(safe-area-inset-bottom));
+}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px}
+
+/* ── 카톡 경고 ── */
+#kakao{
+  display:none; background:var(--live); color:#fff;
+  padding:14px 16px; font-size:14.5px; line-height:1.55; font-weight:500;
+}
+#kakao.on{display:block}
+#kakao b{font-weight:700}
+#kakao .wrap{padding:0}
+
+/* ── 헤더 ── */
+header{padding:26px 0 20px;border-bottom:1px solid var(--line)}
+.kicker{
+  font-size:11.5px;letter-spacing:.14em;font-weight:700;color:var(--live);
+  display:flex;align-items:center;gap:6px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--live);animation:blink 1.6s infinite}
+@keyframes blink{0%,60%{opacity:1}80%,100%{opacity:.25}}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.2;margin:.3em 0 0;letter-spacing:-.02em;font-weight:800}
+h1 .artist{display:block;font-size:.55em;font-weight:600;color:var(--muted);letter-spacing:-.01em;margin-bottom:.15em}
+.clock{margin-top:10px;font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.copybar{display:flex;gap:8px;margin-top:16px}
+button{font:inherit;cursor:pointer;border:none;border-radius:10px}
+.copy{
+  flex:1;background:var(--btn);color:var(--btn-ink);
+  padding:13px 16px;font-size:15px;font-weight:700;letter-spacing:-.01em;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .12s ease,opacity .12s ease;
+}
+.copy:active{transform:scale(.98)}
+.copy.done{background:var(--live);color:#fff}
+
+/* ── OS 토글 ── */
+.ostoggle{display:flex;gap:8px;margin:18px 0 4px}
+.ostoggle button{
+  flex:1;padding:11px 8px;font-size:14px;font-weight:600;
+  background:var(--card);color:var(--muted);border:1px solid var(--line);
+}
+.ostoggle button[aria-pressed="true"]{
+  background:var(--btn);color:var(--btn-ink);border-color:var(--btn);
+}
+.osnote{font-size:12.5px;color:var(--muted);margin:8px 0 0;text-align:center}
+
+/* ── 카드 ── */
+.list{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:15px 16px 14px;
+}
+.card.live{border-color:var(--live);box-shadow:0 0 0 1px var(--live)}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--live-bg);color:var(--live);
+  font-size:11px;font-weight:800;letter-spacing:.06em;
+  padding:4px 9px;border-radius:999px;margin-bottom:9px;
+}
+.badge .dot{width:6px;height:6px}
+.st{font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.pg{font-size:17.5px;font-weight:700;letter-spacing:-.015em;margin-top:2px;line-height:1.35}
+.pg.empty{color:var(--muted);font-weight:500;font-size:15px}
+.time{font-size:13.5px;color:var(--ink2);margin-top:3px;font-variant-numeric:tabular-nums}
+.acts{display:flex;gap:8px;margin-top:13px}
+.acts a{
+  flex:1;text-align:center;text-decoration:none;border-radius:10px;
+  padding:12px 8px;font-size:14.5px;font-weight:700;letter-spacing:-.01em;
+  transition:transform .12s ease;
+}
+.acts a:active{transform:scale(.97)}
+.acts a:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+.primary{background:var(--btn);color:var(--btn-ink)}
+.secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.acts .off{opacity:.32;pointer-events:none}
+
+/* ── 안내 ── */
+.guide{
+  margin-top:26px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:18px 18px 16px;
+}
+.guide h2{font-size:14px;font-weight:800;margin:0 0 10px;letter-spacing:-.01em}
+.guide ol{margin:0;padding-left:1.15em;font-size:14.5px;line-height:1.75;color:var(--ink2)}
+.guide li{margin-bottom:7px}
+.guide li::marker{color:var(--muted);font-weight:700}
+.guide .warn{
+  margin-top:14px;padding-top:13px;border-top:1px solid var(--line2);
+  font-size:13.5px;color:var(--muted);line-height:1.65;
+}
+footer{margin-top:22px;text-align:center;font-size:12px;color:var(--muted)}
+
+.empty-note{
+  margin-top:20px;padding:18px;border:1px dashed var(--line);border-radius:14px;
+  font-size:14px;color:var(--muted);line-height:1.7;text-align:center;
+}
+.empty-note code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--line2);padding:1px 5px;border-radius:4px;color:var(--ink2);
+}
+</style>
+</head>
+<body>
+
+<div id="kakao"><div class="wrap">
+  ⚠️ 카톡에서 바로 누르면 <b>문자창이 안 열립니다.</b><br>
+  오른쪽 아래(아이폰은 오른쪽 위) 메뉴 → <b>다른 브라우저로 열기</b> 를 눌러주세요.
+</div></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="kicker"><span class="dot"></span>라디오 신청</div>
+    <h1><span class="artist" id="artist"></span><span id="song"></span></h1>
+    <div class="clock" id="clock"></div>
+
+    <div class="copybar">
+      <button class="copy" id="copy" type="button">
+        <span id="copytext">곡명 복사</span>
+      </button>
+    </div>
+
+    <div class="ostoggle" role="group" aria-label="휴대폰 종류">
+      <button type="button" data-os="android" aria-pressed="false">📱 안드로이드</button>
+      <button type="button" data-os="ios" aria-pressed="false">🍎 아이폰</button>
+    </div>
+    <p class="osnote" id="osnote"></p>
+  </header>
+
+  <div class="list" id="list"></div>
+
+  <section class="guide">
+    <h2>신청 요령</h2>
+    <ol>
+      <li><b>곡명 복사</b>를 눌러 곡명을 복사해 둡니다.</li>
+      <li>방송 중인 프로그램의 <b>문자 신청</b>을 누릅니다.</li>
+      <li>문자창이 열리면 <b>사연을 직접 짧게</b> 쓰고, 마지막에 아티스트명과 복사해 둔 곡명을 붙여넣습니다.</li>
+      <li>보내기.</li>
+    </ol>
+    <p class="warn">
+      본문을 미리 채워두지 않은 이유가 있습니다. 똑같은 문구가 한꺼번에 몰리면
+      방송국에서 걸러냅니다. <b>짧아도 각자 쓴 사연</b>이 훨씬 잘 읽힙니다.
+      곡명만 정확하게 넣어주세요 — 오타 하나로 집계에서 빠집니다.
+    </p>
+  </section>
+
+  <footer id="foot"></footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ── OS 판별 ── */
+  var ua = navigator.userAgent || "";
+  var isKakao = /KAKAOTALK/i.test(ua);
+  var os = /iPhone|iPad|iPod/i.test(ua) ? "ios"
+         : /Android/i.test(ua)          ? "android"
+         : "android";                       // PC는 안드로이드 문법으로
+  var autoOS = os;
+
+  if (isKakao) document.getElementById("kakao").classList.add("on");
+
+  /* ── 제목 ── */
+  document.getElementById("song").textContent = SONG;
+  if (ARTIST) document.getElementById("artist").textContent = ARTIST;
+  document.title = (ARTIST ? ARTIST + " " : "") + SONG + " 라디오 신청";
+
+  /* ── 시계 ── */
+  function pad(n){ return (n<10?"0":"") + n; }
+  function tick(){
+    var d = new Date();
+    var day = ["일","월","화","수","목","금","토"][d.getDay()];
+    document.getElementById("clock").textContent =
+      d.getMonth()+1 + "월 " + d.getDate() + "일 (" + day + ") " +
+      pad(d.getHours()) + ":" + pad(d.getMinutes());
+    render();
+  }
+
+  /* ── 시간 계산 ── */
+  function toMin(t){
+    if(!t) return null;
+    var p = String(t).split(":");
+    if(p.length < 2) return null;
+    var h = parseInt(p[0],10), m = parseInt(p[1],10);
+    if(isNaN(h) || isNaN(m)) return null;
+    return h*60 + m;
+  }
+  function nowMin(){ var d = new Date(); return d.getHours()*60 + d.getMinutes(); }
+
+  function state(s){
+    var a = toMin(s.from), b = toMin(s.to), n = nowMin();
+    if(a === null || b === null) return { live:false, order:3, mins:9999 };
+    var live = (b > a) ? (n >= a && n < b) : (n >= a || n < b);   // 자정 넘김 처리
+    if(live) return { live:true, order:0, mins:-1 };
+    var until = a - n; if(until < 0) until += 1440;
+    return { live:false, order: until <= 120 ? 1 : 2, mins:until };
+  }
+
+  /* ── sms 링크 ── */
+  function smsHref(num){
+    if(!num) return null;
+    var n = String(num).trim().replace(/\s+/g,"").replace(/#/g,"%23").replace(/\*/g,"%2A").replace(/\+/g,"%2B");
+    if(!BODY) return "sms:" + n;
+    var b = encodeURIComponent(BODY);
+    return os === "ios" ? "sms:" + n + "&body=" + b
+                        : "sms:" + n + "?body=" + b;
+  }
+
+  /* ── 렌더 ── */
+  function render(){
+    var list = document.getElementById("list");
+    var rows = STATIONS.map(function(s, i){
+      return { s:s, i:i, t:state(s) };
+    }).sort(function(x, y){
+      if(x.t.order !== y.t.order) return x.t.order - y.t.order;
+      if(x.t.mins  !== y.t.mins)  return x.t.mins  - y.t.mins;
+      return x.i - y.i;
+    });
+
+    var html = rows.map(function(r){
+      var s = r.s, t = r.t;
+      var href = smsHref(s.sms);
+      var when = (s.from && s.to) ? (s.from + " – " + s.to) : "";
+      var soon = (!t.live && t.order === 1)
+        ? '<span style="color:var(--live);font-weight:700"> · ' + t.mins + '분 뒤 시작</span>' : "";
+
+      return '<article class="card' + (t.live ? " live" : "") + '">' +
+        (t.live ? '<span class="badge"><span class="dot"></span>지금 방송 중</span>' : "") +
+        '<div class="st">' + esc(s.st) + '</div>' +
+        (s.pg ? '<div class="pg">' + esc(s.pg) + '</div>'
+              : '<div class="pg empty">프로그램명을 입력해 주세요</div>') +
+        (when ? '<div class="time">' + when + soon + '</div>' : "") +
+        '<div class="acts">' +
+          '<a class="primary' + (href ? "" : " off") + '"' +
+             (href ? ' href="' + href + '"' : ' aria-disabled="true"') + '>문자 신청</a>' +
+          '<a class="secondary' + (s.board ? "" : " off") + '"' +
+             (s.board ? ' href="' + esc(s.board) + '" target="_blank" rel="noopener"'
+                      : ' aria-disabled="true"') + '>게시판</a>' +
+        '</div>' +
+      '</article>';
+    }).join("");
+
+    var filled = STATIONS.some(function(s){ return s.sms || s.board; });
+    if(!filled){
+      html += '<div class="empty-note">' +
+        '아직 문자 번호와 게시판 주소가 비어 있습니다.<br>' +
+        '파일 위쪽 <code>STATIONS</code> 목록을 채워주세요.' +
+        '</div>';
+    }
+    list.innerHTML = html;
+  }
+
+  function esc(v){
+    return String(v).replace(/[&<>"]/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c];
+    });
+  }
+
+  /* ── OS 토글 ── */
+  var btns = document.querySelectorAll(".ostoggle button");
+  function setOS(v, manual){
+    os = v;
+    Array.prototype.forEach.call(btns, function(b){
+      b.setAttribute("aria-pressed", b.dataset.os === v ? "true" : "false");
+    });
+    document.getElementById("osnote").textContent = manual
+      ? "직접 선택함 — 문자창이 안 열리면 반대쪽을 눌러보세요."
+      : (v === "ios" ? "아이폰으로 자동 인식됨" : "안드로이드로 자동 인식됨");
+    render();
+  }
+  Array.prototype.forEach.call(btns, function(b){
+    b.addEventListener("click", function(){ setOS(b.dataset.os, true); });
+  });
+
+  /* ── 곡명 복사 ── */
+  var copyBtn  = document.getElementById("copy");
+  var copyText = document.getElementById("copytext");
+  var timer;
+  copyBtn.addEventListener("click", function(){
+    var text = (ARTIST ? ARTIST + " " : "") + SONG;
+    var done = function(){
+      copyBtn.classList.add("done");
+      copyText.textContent = "복사됨 — 문자창에 붙여넣으세요";
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        copyBtn.classList.remove("done");
+        copyText.textContent = "곡명 복사";
+      }, 2600);
+    };
+    var fail = function(){
+      copyText.textContent = "복사 안 됨 — 길게 눌러 복사하세요: " + text;
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){ legacy(text, done, fail); });
+    } else {
+      legacy(text, done, fail);
+    }
+  });
+  function legacy(text, ok, no){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly","");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta);
+      ta.select(); ta.setSelectionRange(0, text.length);
+      var okc = document.execCommand("copy");
+      document.body.removeChild(ta);
+      okc ? ok() : no();
+    }catch(e){ no(); }
+  }
+
+  /* ── 시작 ── */
+  setOS(autoOS, false);
+  tick();
+  setInterval(tick, 30000);
+  document.getElementById("foot").textContent = "표는 30초마다 현재 시각 기준으로 다시 정렬됩니다";
+})();
+</script>
+</body>
+</html>
