@@ -325,7 +325,11 @@ footer{margin-top:22px;text-align:center;font-size:12px;color:var(--muted)}
   }
 
   /* ── 시간 계산 ── */
-      var p = String(t).split(":");
+     /* ── 시간 계산 ── */
+  function toMin(t){
+    if(!t) return null;
+    var p = String(t).split(":");
+    if(p.length < 2) return null;
     var h = parseInt(p[0],10), m = parseInt(p[1],10);
     if(isNaN(h) || isNaN(m)) return null;
     return h*60 + m;
@@ -342,7 +346,9 @@ footer{margin-top:22px;text-align:center;font-size:12px;color:var(--muted)}
   }
 
   /* ── sms 링크 ── */
-      var n = String(num).trim().replace(/\s+/g,"").replace(/#/g,"%23").replace(/\*/g,"%2A").replace(/\+/g,"%2B");
+  function smsHref(num){
+    if(!num) return null;
+    var n = String(num).trim().replace(/\s+/g,"").replace(/#/g,"%23").replace(/\*/g,"%2A").replace(/\+/g,"%2B");
     if(!BODY) return "sms:" + n;
     var b = encodeURIComponent(BODY);
     return os === "ios" ? "sms:" + n + "&body=" + b
@@ -350,54 +356,6 @@ footer{margin-top:22px;text-align:center;font-size:12px;color:var(--muted)}
   }
 
   /* ── 렌더 ── */
-  function render(){
-    var list = document.getElementById("list");
-    var rows = STATIONS.map(function(s, i){
-      return { s:s, i:i, t:state(s) };
-    }).sort(function(x, y){
-      if(x.t.order !== y.t.order) return x.t.order - y.t.order;
-      if(x.t.mins  !== y.t.mins)  return x.t.mins  - y.t.mins;
-      return x.i - y.i;
-    });
-
-    var html = rows.map(function(r){
-      var s = r.s, t = r.t;
-      var href = smsHref(s.sms);
-      var when = (s.from && s.to) ? (s.from + " – " + s.to) : "";
-      var soon = (!t.live && t.order === 1)
-        ? '<span style="color:var(--live);font-weight:700"> · ' + t.mins + '분 뒤 시작</span>' : "";
-
-      return '<article class="card' + (t.live ? " live" : "") + '">' +
-        (t.live ? '<span class="badge"><span class="dot"></span>지금 방송 중</span>' : "") +
-        '<div class="st">' + esc(s.st) + '</div>' +
-        (s.pg ? '<div class="pg">' + esc(s.pg) + '</div>'
-              : '<div class="pg empty">프로그램명을 입력해 주세요</div>') +
-        (when ? '<div class="time">' + when + soon + '</div>' : "") +
-        '<div class="acts">' +
-          '<a class="primary' + (href ? "" : " off") + '"' +
-             (href ? ' href="' + href + '"' : ' aria-disabled="true"') + '>문자 신청</a>' +
-          '<a class="secondary' + (s.board ? "" : " off") + '"' +
-             (s.board ? ' href="' + esc(s.board) + '" target="_blank" rel="noopener"'
-                      : ' aria-disabled="true"') + '>게시판</a>' +
-        '</div>' +
-      '</article>';
-    }).join("");
-
-    var filled = STATIONS.some(function(s){ return s.sms || s.board; });
-    if(!filled){
-      html += '<div class="empty-note">' +
-        '아직 문자 번호와 게시판 주소가 비어 있습니다.<br>' +
-        '파일 위쪽 <code>STATIONS</code> 목록을 채워주세요.' +
-        '</div>';
-    }
-    list.innerHTML = html;
-  }
-
-  function esc(v){
-    return String(v).replace(/[&<>"]/g, function(c){
-      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c];
-    });
-  }
 
   /* ── OS 토글 ── */
   var btns = document.querySelectorAll(".ostoggle button");
