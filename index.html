@@ -11,38 +11,92 @@
    ① 여기만 고치면 됩니다
    ══════════════════════════════════════════════════════════════ */
 
-const SONG   = "신곡";      // 곡명. 컴백하면 여기만 바꾸세요.
-const ARTIST = "";          // 아티스트명. 비워두면 표시하지 않습니다.
+const SONG   = "또또";      // 곡명. 컴백하면 여기만 바꾸세요.
+const ARTIST = "임영웅";     // 아티스트명. 비워두면 표시하지 않습니다.
 
 // 문자 본문 — 비워두는 것을 권합니다.
 // 똑같은 문구가 대량으로 들어가면 방송국에서 걸러냅니다.
 // 사연은 각자 쓰고, 곡명은 위의 [곡명 복사] 버튼으로 붙여넣게 하세요.
 const BODY = "";
 
-/* ── 편성 목록 ──────────────────────────────────────────────────
-   st    방송국
-   pg    프로그램명
-   from  시작 (24시간, "HH:MM")
-   to    끝
-   sms   문자 번호 (예: "#8001")  ← 각 방송국 홈페이지·앱의 '문자 참여' 안내에 있습니다
-   board 게시판 신청 주소 (없으면 "")
-
-   ▸ 채우는 예시
-     { st:"MBC 표준FM", pg:"○○○의 △△△", from:"18:00", to:"20:00",
-       sms:"#0000", board:"https://m.imbc.com/..." },
-
-   ▸ 번호나 주소가 비어 있는 줄은 그 버튼만 흐리게 표시됩니다.
-   ────────────────────────────────────────────────────────────── */
+/* ── 편성 목록 ── */
 
 const STATIONS = [
-  { st:"MBC 표준FM",  pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"MBC FM4U",    pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"SBS 파워FM",  pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"SBS 러브FM",  pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"KBS Cool FM", pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"KBS Happy FM",pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"CBS 음악FM",  pg:"", from:"", to:"", sms:"", board:"" },
-  { st:"TBS 교통방송", pg:"", from:"", to:"", sms:"", board:"" },
+
+  /* ── 1. MBC 표준FM  #8001 ── */
+  { st:"MBC 표준FM", pg:"낭만가요",                        from:"01:00", to:"05:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"여성시대 양희은, 김일중입니다",      from:"09:05", to:"11:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"손태진의 트로트 라디오",             from:"12:20", to:"14:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"박준형, 박영진의 2시만세",           from:"14:00", to:"16:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"정선희, 문천식의 지금은 라디오시대",  from:"16:05", to:"18:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"김현철의 디스크쇼",                 from:"22:00", to:"24:00", sms:"#8001", board:"" },
+  { st:"MBC 표준FM", pg:"신혜림의 골든디스크",               from:"24:00", to:"01:00", sms:"#8001", board:"" },
+
+  /* ── 2. MBC FM4U  #8000 ── */
+  { st:"MBC FM4U",   pg:"세상을 여는 아침 이영은입니다",      from:"06:00", to:"07:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"굿모닝FM 테이입니다",               from:"07:00", to:"09:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"오늘 아침 윤상입니다",              from:"09:00", to:"11:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"안녕하세요 이문세입니다",            from:"11:00", to:"12:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"정오의 희망곡 김신영입니다",         from:"12:00", to:"14:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"두시의 데이트 안영미입니다",         from:"14:00", to:"16:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"완벽한 하루 이상순입니다",           from:"16:00", to:"18:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"윤태진의 FM데이트",                 from:"20:00", to:"22:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"김이나의 별이 빛나는 밤에",          from:"22:00", to:"24:00", sms:"#8000", board:"" },
+  { st:"MBC FM4U",   pg:"친한친구 이현입니다",               from:"24:00", to:"02:00", sms:"#8000", board:"" },
+
+  /* ── 3. SBS 파워FM  #1077 ── */
+  { st:"SBS 파워FM", pg:"애프터클럽",                       from:"01:00", to:"03:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"이인권의 펀펀투데이",                from:"05:00", to:"07:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"김영철의 파워FM",                   from:"07:00", to:"09:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"아름다운 이 아침 봉태규입니다",       from:"09:00", to:"11:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"12시엔 주현영",                     from:"12:00", to:"14:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"두시탈출 컬투쇼",                    from:"14:00", to:"16:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"황제성의 황제파워",                  from:"16:00", to:"18:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"박소현의 러브게임",                  from:"18:00", to:"20:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"웬디의 영스트리트",                  from:"20:00", to:"22:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"배성재의 텐",                       from:"22:00", to:"23:00", sms:"#1077", board:"" },
+  { st:"SBS 파워FM", pg:"딘딘의 Music High",                 from:"23:00", to:"01:00", sms:"#1077", board:"" },
+
+  /* ── 4. SBS 러브FM  #1035 ── */
+  { st:"SBS 러브FM", pg:"최영주의 아침편지",                  from:"05:00", to:"07:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"이숙영의 러브FM",                   from:"09:05", to:"11:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"박세미의 수다가 체질",               from:"12:00", to:"14:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"유민상의 배고픈 라디오",             from:"14:20", to:"16:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"6시 저녁바람 김창완입니다",           from:"18:05", to:"20:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"그대의 밤 정엽입니다",               from:"20:05", to:"22:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"최백호의 낭만시대",                  from:"22:00", to:"24:00", sms:"#1035", board:"" },
+  { st:"SBS 러브FM", pg:"심야방송반",                        from:"24:00", to:"02:00", sms:"#1035", board:"" },
+
+  /* ── 5. KBS Cool FM  #8910 ── */
+  { st:"KBS Cool FM", pg:"상쾌한 아침",                      from:"05:00", to:"06:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"조정식의 FM대행진",                 from:"07:00", to:"09:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"이현우의 음악앨범",                 from:"09:00", to:"11:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"박명수의 라디오쇼",                 from:"11:00", to:"12:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"이은지의 가요광장",                 from:"12:00", to:"14:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"하하의 슈퍼라디오",                 from:"14:00", to:"16:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"윤정수, 남창희의 미스터라디오",      from:"16:00", to:"18:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"사랑하기 좋은날 이금희입니다",       from:"18:00", to:"20:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"오마이걸 효정의 볼륨을 높여요",      from:"20:00", to:"22:00", sms:"#8910", board:"" },
+  { st:"KBS Cool FM", pg:"한해의 키스 더 라디오",             from:"22:00", to:"24:00", sms:"#8910", board:"" },
+
+  /* ── 6. KBS Happy FM  #1061 ── */
+  { st:"KBS Happy FM", pg:"우리의 아침 조경아입니다",          from:"07:00", to:"09:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"주현미의 러브레터",                from:"09:00", to:"11:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"임백천의 백뮤직",                  from:"12:00", to:"14:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"은가은의 빛나는 트로트",           from:"14:00", to:"16:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"이본의 라라랜드",                  from:"16:00", to:"18:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"스윗 드라이브 인호진입니다",        from:"18:00", to:"20:00", sms:"#1061", board:"" },
+  { st:"KBS Happy FM", pg:"유지원의 밤을 잊은 그대에게",       from:"22:00", to:"24:00", sms:"#1061", board:"" },
+
+  /* ── 7. CBS 음악FM  #9390 ── */
+  { st:"CBS 음악FM", pg:"이수영의 12시에 만납시다",           from:"12:00", to:"14:00", sms:"#9390", board:"" },
+  { st:"CBS 음악FM", pg:"박승화의 가요속으로",                from:"16:00", to:"18:00", sms:"#9390", board:"" },
+  { st:"CBS 음악FM", pg:"김현주의 행복한 동행",               from:"20:00", to:"22:00", sms:"#9390", board:"" },
+  { st:"CBS 음악FM", pg:"허윤희의 꿈과 음악 사이에",          from:"22:00", to:"24:00", sms:"#9390", board:"" },
+
+  /* ── 8. TBS 교통방송  #0951 ── */
+  { st:"TBS 교통방송", pg:"최일구의 허리케인 라디오",          from:"14:00", to:"16:00", sms:"#0951", board:"" },
+
 ];
 
 /* ══════════════════════════════════════════════════════════════
