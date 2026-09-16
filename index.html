@@ -327,7 +327,7 @@ footer{margin-top:22px;text-align:center;font-size:12px;color:var(--muted)}
   /* ── 시간 계산 ── */
   function toMin(t){
     if(!t) return null;
-    var p = String(t).split(":");
+        var n = String(num).trim().replace(/\s+/g,"").replace(/#/g,"%23").replace(/\*/g,"%2A").replace(/\+/g,"%2B");
     if(p.length < 2) return null;
     var h = parseInt(p[0],10), m = parseInt(p[1],10);
     if(isNaN(h) || isNaN(m)) return null;
