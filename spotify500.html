@@ -8,7 +8,7 @@
 <style>
   :root{
     --bg:#070b18; --panel:rgba(255,255,255,.055); --line:rgba(255,255,255,.11);
-    --ink:#eef3ff; --muted:#94a3c7; --accent:#3b62ff; --accent2:#7ea2ff; --gold:#ffd166; --sp:#1ed760;
+    --ink:#eef3ff; --muted:#94a3c7; --accent:#3b62ff; --accent2:#7ea2ff; --gold:#ffd166; --silver:#dfe6f5; --sp:#1ed760;
     --r:14px;
   }
   *{box-sizing:border-box}
@@ -32,7 +32,7 @@
     font-variant-numeric:tabular-nums;line-height:1.1}
   .stat b small{font-size:.55em;font-weight:700;color:var(--muted)}
   .stat>span{display:block;margin-top:5px;font-size:11px;color:var(--muted);letter-spacing:.02em}
-  .stat.hi b{color:var(--gold)}
+  .stat.hi b{color:var(--gold)} .stat.sv b{color:var(--silver)}
   .track{margin-top:14px;background:rgba(255,255,255,.07);border:1px solid var(--line);
     border-radius:999px;height:16px;position:relative;overflow:hidden}
   .fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),#8fb0ff);
@@ -46,8 +46,8 @@
   .t{position:relative;background-color:#161d33;background-image:linear-gradient(rgba(9,13,27,.84),rgba(9,13,27,.84)),var(--img);background-repeat:no-repeat;
     box-shadow:inset 0 0 0 .5px rgba(255,255,255,.045);transition:background-color .5s ease,opacity .3s ease}
   .t.on{background-color:transparent;background-image:var(--img)}
-  /* 1계정(짝 없음): 연하게 */
-  .t.on.s{opacity:.5;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+  /* 1계정 선물: 한 칸, 은색 테두리 */
+  .t.on.s{box-shadow:inset 0 0 0 2px var(--silver)}
   /* 2계정(선물 확정): 두 칸을 금색 테두리로 묶음 */
   .t.on.gl{box-shadow:inset 2px 0 0 var(--gold),inset 0 2px 0 var(--gold),inset 0 -2px 0 var(--gold)}
   .t.on.gr{box-shadow:inset -2px 0 0 var(--gold),inset 0 2px 0 var(--gold),inset 0 -2px 0 var(--gold)}
@@ -60,7 +60,7 @@
   .legend{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:14px;font-size:12.5px;color:var(--muted)}
   .legend span{display:inline-flex;align-items:center;gap:7px}
   .lg{display:inline-block;width:30px;height:14px;border-radius:2px;background:#5d7fd8}
-  .lg.g{box-shadow:inset 0 0 0 2px var(--gold)} .lg.s{width:15px;opacity:.5;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+  .lg.g{box-shadow:inset 0 0 0 2px var(--gold)} .lg.s{width:15px;box-shadow:inset 0 0 0 2px var(--silver)}
   .lg.e{width:15px;background:#161d33;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
 
   #tip{position:fixed;z-index:40;pointer-events:none;display:none;background:rgba(8,13,28,.97);
@@ -86,7 +86,7 @@
   .rbar{grid-column:2/4;height:4px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:-2px}
   .rbar i{display:block;height:100%;border-radius:99px;transition:width .7s cubic-bezier(.22,1,.36,1)}
   .rnum{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .rnum b{color:var(--ink);font-size:13px} .rnum u{text-decoration:none;color:var(--gold);font-weight:700}
+  .rnum b{color:var(--ink);font-size:13px} .rnum u{text-decoration:none;color:var(--gold);font-weight:700} .rnum s{text-decoration:none;color:var(--silver);font-weight:700}
   .box{margin-top:34px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:17px 19px}
   .box h3{margin:0 0 9px;font-size:14px;font-weight:800}
   .box ol{margin:0;padding-left:19px;color:var(--muted);font-size:13px;line-height:1.85}
@@ -107,11 +107,11 @@
     <div class="kicker">SPOTIFY 인증 · 10/5 ~ 10/12</div>
     <h1>우리가 완성하는 한 장</h1>
     <p class="sub">스포티파이 <b style="color:var(--ink)">1계정 인증이 타일 한 칸</b>입니다. 500칸을 함께 채웁니다.<br>
-       한 사람이 <b>2계정을 인증하면 선물 1개</b> — 두 칸이 금색 테두리로 묶입니다.</p>
+       <b>2계정 선물</b>은 금색으로 묶인 두 칸, <b style="color:var(--silver)">1계정 선물</b>은 은색 한 칸으로 표시됩니다.</p>
     <div class="stats">
       <div class="stat"><b><span id="s-now">0</span><small> / 500</small></b><span>인증 칸</span></div>
-      <div class="stat hi"><b id="s-gift">0</b><span>선물 확정 (2계정)</span></div>
-      <div class="stat"><b id="s-left">500</b><span>남은 칸</span></div>
+      <div class="stat hi"><b id="s-gift">0</b><span>2계정 선물</span></div>
+      <div class="stat sv"><b id="s-one">0</b><span>1계정 선물</span></div>
     </div>
     <div class="track"><div class="fill" id="fill"></div></div>
     <div class="trackcap"><span>0</span><span id="cap-mid">완성률 0%</span><span>500</span></div>
@@ -120,8 +120,8 @@
   <div class="board">
     <div class="grid" id="grid" aria-label="모자이크"></div>
     <div class="legend">
-      <span><i class="lg g"></i>선물 확정 (한 사람 2계정)</span>
-      <span><i class="lg s"></i>1계정 — 하나 더 인증하면 선물</span>
+      <span><i class="lg g"></i>2계정 선물 (한 사람의 두 칸)</span>
+      <span><i class="lg s"></i>1계정 선물 (한 칸)</span>
       <span><i class="lg e"></i>빈 칸 (흐릿하게 비침)</span>
     </div>
     <div class="tools">
@@ -133,7 +133,7 @@
   </div>
 
   <h2>방별 현황</h2>
-  <p class="note">방 이름을 누르면 그 방이 채운 칸이 그림 위에 표시됩니다. <b style="color:var(--gold)">금색 숫자</b>는 그 방의 선물 확정 수입니다.</p>
+  <p class="note">방 이름을 누르면 그 방이 채운 칸이 그림 위에 표시됩니다. <b style="color:var(--gold)">금색 숫자</b>는 2계정 선물, <b style="color:var(--silver)">은색 숫자</b>는 1계정 선물 수입니다.</p>
   <div class="tools" style="justify-content:flex-start;margin:0 0 12px">
     <button id="b-rank" aria-pressed="true">순위순</button>
     <button id="b-name" aria-pressed="false">이름순</button>
@@ -146,7 +146,7 @@
       <li><b>스포티파이</b> 인증화면을 준비합니다. <b>1계정 = 1칸</b>입니다.</li>
       <li>인증은 <b>총공방 음팀 앞</b>으로 올립니다. (기간 <b>10월 5일 ~ 10월 12일</b>)</li>
       <li>음팀이 명단에 올리면 <b>내 타일이 켜집니다</b>.</li>
-      <li><b>한 사람이 2계정</b>을 인증하면 <b>선물 1개</b>입니다. 두 칸이 금색 테두리로 묶여 표시됩니다.</li>
+      <li><b>1계정 선물</b>은 은색 테두리 한 칸, <b>2계정 선물</b>(한 사람이 2계정)은 금색 테두리로 묶인 두 칸으로 표시됩니다.</li>
       <li>타일에 손을 올리면 그 칸의 <b>닉네임</b>이 보입니다.</li>
     </ol>
   </div>
@@ -236,9 +236,9 @@ function render(){
   var shown=shownPairs*2+si;
   document.getElementById('s-now').textContent=shown.toLocaleString();
   document.getElementById('s-gift').textContent=pairs.length.toLocaleString();
-  document.getElementById('s-left').textContent=Math.max(0,TOTAL-shown).toLocaleString();
+  document.getElementById('s-one').textContent=singles.length.toLocaleString();
   document.getElementById('fill').style.width=Math.min(100,shown/TOTAL*100)+'%';
-  document.getElementById('cap-mid').textContent='완성률 '+(shown/TOTAL*100).toFixed(1)+'%';
+  document.getElementById('cap-mid').textContent='완성률 '+(shown/TOTAL*100).toFixed(1)+'% · 남은 칸 '+Math.max(0,TOTAL-shown);
   drawRooms(); highlight();
 }
 
@@ -255,7 +255,7 @@ function drawRooms(){
     el.setAttribute('aria-pressed', sel===r.i?'true':'false');
     el.innerHTML='<span class="chip" style="background:'+col+'"></span>'+
       '<span class="rname"></span>'+
-      '<span class="rnum"><b>'+r.n+'</b>칸 · 선물 <u>'+r.g+'</u></span>'+
+      '<span class="rnum"><b>'+r.n+'</b>칸 · <u>'+r.g+'</u> · <s>'+(r.n-2*r.g)+'</s></span>'+
       '<span class="rbar"><i style="width:'+(r.n/mx*100)+'%;background:'+col+'"></i></span>';
     el.querySelector('.rname').textContent=r.name;
     el.onclick=function(){ sel = (sel===r.i? -1 : r.i); highlight(); drawRooms(); };
@@ -286,8 +286,8 @@ function showTip(e,el){
   if(!el.dataset.n){tip.style.display='none';return}
   tip.innerHTML=''; var b=document.createElement('b'); b.textContent=el.dataset.n;
   var i=document.createElement('i'); i.textContent=' · '+el.dataset.r;
-  var m=document.createElement('em'); m.textContent=el.dataset.g==='1'?'선물 확정 (2계정)':'1계정 — 하나 더 인증하면 선물';
-  if(el.dataset.g!=='1') m.style.color='var(--muted)';
+  var m=document.createElement('em'); m.textContent=el.dataset.g==='1'?'2계정 선물':'1계정 선물';
+  if(el.dataset.g!=='1') m.style.color='var(--silver)';
   tip.appendChild(b); tip.appendChild(i); tip.appendChild(m);
   tip.style.display='block';
   var px=(e.touches?e.touches[0].clientX:e.clientX), py=(e.touches?e.touches[0].clientY:e.clientY);
