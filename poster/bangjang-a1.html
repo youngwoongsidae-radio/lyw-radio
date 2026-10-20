@@ -1,161 +1,160 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
 <meta charset="utf-8">
-<title>방장회의 안내 · 영웅시대</title>
+<title>전국 방장회의 안내 · 영웅시대</title>
 <style>
 /* A1 세로 (594 × 841 mm) 인쇄용 — 1쪽 안내 포스터, 2쪽 타임테이블 */
 @page{size:594mm 841mm;margin:0}
 :root{
-  --ink:#152238;--navy:#0f1a2e;--navy2:#1b2a47;--gold:#c9922e;--gold2:#e0b158;
-  --blue:#2f6fd0;--page:#f5f7fb;--line:#dfe5ef;--muted:#5d6b85;
+  --bg1:#13294d;--bg2:#0a1630;--card:rgba(255,255,255,.055);--cardline:rgba(255,255,255,.13);
+  --sky:#5ccbf5;--yellow:#ffc94a;--text:#fff;--muted:#a9b7cf;--rowline:rgba(255,255,255,.09);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#888}
-body{font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);
+html,body{background:#555}
+body{font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif,"Noto Color Emoji";color:var(--text);
   -webkit-print-color-adjust:exact;print-color-adjust:exact;word-break:keep-all}
-.page{width:594mm;height:841mm;overflow:hidden;position:relative;background:var(--page);
+.page{width:594mm;height:841mm;overflow:hidden;position:relative;padding:44mm 46mm 0;
+  background:radial-gradient(160mm 160mm at 88% 4%,rgba(92,203,245,.16),transparent 70%),
+             linear-gradient(170deg,var(--bg1) 0%,var(--bg2) 62%);
   page-break-after:always;break-after:page;margin:0 auto}
-@media screen{.page{margin:20mm auto;box-shadow:0 4mm 16mm rgba(0,0,0,.35)}}
+.page::before,.page::after{content:"";position:absolute;border-radius:50%;border:.9mm solid rgba(92,203,245,.2);pointer-events:none}
+.page::before{width:330mm;height:330mm;right:-150mm;top:-120mm}
+.page::after{width:250mm;height:250mm;right:-140mm;top:-70mm;border-color:rgba(92,203,245,.13)}
+@media screen{.page{margin:20mm auto;box-shadow:0 4mm 16mm rgba(0,0,0,.4)}}
 
-/* ── 공통 머리 ── */
-.hero{background:linear-gradient(160deg,var(--navy2) 0%,var(--navy) 70%);color:#fff;position:relative;overflow:hidden}
-.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;border:1.6mm solid rgba(224,177,88,.22)}
-.hero::before{width:300mm;height:300mm;right:-110mm;top:-120mm}
-.hero::after{width:190mm;height:190mm;right:-40mm;top:-50mm;border-color:rgba(224,177,88,.14)}
-.kicker{font-size:15mm;font-weight:700;letter-spacing:1.2mm;color:var(--gold2)}
-.gold-rule{width:60mm;height:2.4mm;background:var(--gold);border-radius:2mm}
+.badge{display:inline-block;background:var(--sky);color:#0a1630;font-size:15mm;font-weight:800;
+  letter-spacing:1.4mm;padding:4.5mm 13mm;border-radius:20mm}
+h1{font-weight:900;letter-spacing:-2.5mm;line-height:1.08}
+h1 .sky{color:var(--sky)}
+.lead{font-size:18mm;font-weight:500;color:#dbe4f3;margin-top:12mm}
+.card{background:var(--card);border:.6mm solid var(--cardline);border-radius:9mm}
+.note{font-size:11.5mm;color:var(--muted)}
+.foot{position:absolute;left:46mm;right:46mm;bottom:40mm;display:flex;justify-content:space-between;align-items:flex-end}
+.brand{font-size:24mm;font-weight:900;letter-spacing:-.5mm}
 
-/* ── 1쪽: 안내 ── */
-.p1 .hero{height:372mm;padding:46mm 50mm 0}
-.p1 .year{font-size:24mm;font-weight:600;opacity:.85;margin-top:14mm}
-.p1 h1{font-size:104mm;font-weight:900;letter-spacing:-3mm;line-height:1;margin-top:4mm}
-.p1 .lead{font-size:19mm;font-weight:500;line-height:1.45;opacity:.9;margin-top:14mm}
-.p1 .lead b{color:var(--gold2);font-weight:800}
+/* ── 1쪽 ── */
+.p1 h1{font-size:86mm;margin-top:12mm}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:9mm;margin-top:22mm}
+.info .card{padding:11mm 14mm 12mm}
+.info .k{font-size:13mm;font-weight:800;color:var(--sky)}
+.info .v{font-size:22mm;font-weight:800;margin-top:4mm;letter-spacing:-.4mm}
+.info .s{font-size:13mm;color:var(--muted);margin-top:3mm}
+.sec{font-size:17mm;font-weight:800;margin-top:20mm;display:flex;align-items:center;gap:8mm}
+.sec::after{content:"";flex:1;height:.5mm;background:var(--cardline)}
+.agenda{display:grid;grid-template-columns:repeat(3,1fr);gap:9mm;margin-top:12mm}
+.agenda .card{padding:11mm 13mm 12mm;background:linear-gradient(160deg,rgba(92,203,245,.14),rgba(92,203,245,.04))}
+.agenda .n{font-size:26mm;font-weight:900;color:var(--sky);line-height:1}
+.agenda .t{font-size:17mm;font-weight:800;line-height:1.3;margin-top:5mm}
+.agenda .w{font-size:11.5mm;color:var(--muted);margin-top:4mm}
+.ask{margin-top:12mm;padding:11mm 16mm;border:.7mm dashed rgba(255,201,74,.55);border-radius:9mm;background:rgba(255,201,74,.08)}
+.ask b{display:block;font-size:16mm;font-weight:800;color:var(--yellow)}
+.ask p{font-size:14mm;line-height:1.45;margin-top:4mm;color:#e7edf7}
 
-.info{position:relative;margin:-40mm 40mm 0;background:#fff;border-radius:10mm;
-  box-shadow:0 2mm 4mm rgba(21,34,56,.06),0 10mm 30mm rgba(21,34,56,.12);padding:14mm 30mm}
-.row{display:grid;grid-template-columns:72mm 1fr;align-items:baseline;padding:9.5mm 0;border-top:.6mm solid var(--line)}
-.row:first-child{border-top:0}
-.row dt{font-size:15mm;font-weight:800;color:var(--gold)}
-.row dd{font-size:21mm;font-weight:700;line-height:1.3}
-.row dd small{display:block;font-size:13mm;font-weight:500;color:var(--muted);margin-top:3mm}
-
-.agenda{margin:22mm 50mm 0}
-.agenda h2{font-size:18mm;font-weight:800;display:flex;align-items:center;gap:8mm}
-.agenda h2::after{content:"";flex:1;height:.6mm;background:var(--line)}
-.agenda ol{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9mm 14mm;margin-top:12mm}
-.agenda li{font-size:15mm;font-weight:600;display:flex;gap:6mm;align-items:baseline;line-height:1.3}
-.agenda li span{flex:none;width:15mm;height:15mm;border-radius:50%;background:var(--ink);color:#fff;
-  font-size:9mm;font-weight:800;display:grid;place-items:center;transform:translateY(1.5mm)}
-
-.foot{position:absolute;left:0;right:0;bottom:0;height:62mm;background:var(--navy);color:#fff;
-  display:flex;align-items:center;justify-content:space-between;padding:0 50mm}
-.foot .q{font-size:14mm;font-weight:600}
-.foot .q b{color:var(--gold2);margin-right:6mm}
-.foot .brand{font-size:14mm;font-weight:800;letter-spacing:1mm;color:var(--gold2)}
-.note{margin:14mm 50mm 0;font-size:12mm;font-weight:600;color:var(--muted);line-height:1.5}
-
-/* ── 2쪽: 타임테이블 ── */
-.p2 .hero{height:196mm;padding:44mm 50mm 0}
-.p2 h1{font-size:76mm;font-weight:900;letter-spacing:-2mm;line-height:1;margin-top:10mm}
-.p2 .date{font-size:16mm;font-weight:600;opacity:.88;margin-top:12mm}
-.tt{margin:30mm 50mm 0;position:relative}
-.tt::before{content:"";position:absolute;left:97mm;top:12mm;bottom:12mm;width:1.2mm;background:var(--line)}
-.slot{display:grid;grid-template-columns:86mm 22mm 1fr;align-items:center;min-height:64mm;position:relative;margin-bottom:4mm}
-.slot .t{font-size:17mm;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5mm;line-height:1.1}
-.slot .t i{display:block;font-style:normal;font-size:11mm;font-weight:600;color:var(--muted);margin-top:1.5mm}
-.slot .dot{width:9mm;height:9mm;border-radius:50%;background:#fff;border:2mm solid var(--gold);justify-self:center;position:relative;z-index:1}
-.slot .c{padding:9mm 12mm;border-radius:6mm}
-.slot .c h3{font-size:17mm;font-weight:800;line-height:1.2}
-.slot .c p{font-size:11.5mm;font-weight:500;color:var(--muted);margin-top:2.5mm;line-height:1.35}
-.slot.main .c{background:#fff;box-shadow:0 1mm 2mm rgba(21,34,56,.05),0 5mm 16mm rgba(21,34,56,.08)}
-.slot.main .dot{background:var(--gold)}
-.slot.main .c h3 em{font-style:normal;color:var(--gold);margin-right:4mm}
-.slot.rest .c h3{color:var(--muted);font-weight:700}
-.slot.rest .dot{border-color:#b9c3d4}
+/* ── 2쪽 ── */
+.p2 h1{font-size:84mm;margin-top:14mm}
+.p2 .lead{margin-top:10mm}
+.days{display:grid;grid-template-columns:1.5fr 1fr;gap:9mm;margin-top:22mm;align-items:start}
+.day{padding:13mm 13mm 8mm}
+.day h2{font-size:20mm;font-weight:900;display:flex;align-items:center;gap:5mm;margin-bottom:5mm}
+.day h2 span{font-size:11mm;font-weight:800;background:var(--yellow);color:#1b1500;padding:2mm 6mm;border-radius:10mm}
+.r{display:grid;grid-template-columns:52mm 1fr;gap:4mm;padding:8.8mm 0;border-top:.45mm solid var(--rowline);align-items:baseline}
+.r:first-of-type{border-top:0}
+.r .tm{font-size:14.5mm;font-weight:800;color:var(--sky);font-variant-numeric:tabular-nums}
+.r .ds{font-size:14mm;font-weight:500;line-height:1.38}
+.r.hl .tm,.r.hl .ds{color:var(--yellow);font-weight:800}
+.day .ask{margin:10mm 0 6mm;padding:11mm 12mm}
+.day .ask b{font-size:14mm}
+.day .ask p{font-size:12.5mm}
 </style>
 </head><body>
 
 <!-- ══════════════════════════════════════════════════════════════
-     ① 여기만 고치면 됩니다 — ○ 표시는 실제 내용으로 바꿔주세요
+     ① 여기만 고치면 됩니다
      ══════════════════════════════════════════════════════════════ -->
 <script>
 const INFO = {
-  year:  "2026 영웅시대",
-  title: "방장회의",
-  lead:  "전국 지역방 방장님들을 모십니다.<br>한 해를 돌아보고 <b>다음 걸음</b>을 함께 정해요.",
-  rows: [
-    ["일시",   "2026년 ○월 ○일 (○) 오후 1시",  "오후 12시 30분부터 접수"],
-    ["장소",   "○○○○ 세미나실 ○층",          "○○역 ○번 출구 도보 ○분"],
-    ["대상",   "전국 지역방 방장 · 부방장",     "지역방별 1~2명 참석"],
-    ["준비물", "지역방 활동 현황 (간단히)",     "명찰은 현장에서 나눠드립니다"],
+  badge: "2026 · 3/4분기",
+  lead:  "방장님들, 안녕하세요! 1박 2일로 함께 모여요 😊",
+  cards: [
+    ["🗓️ 일시",      "10.31(토) ~ 11.1(일)", "1박 2일"],
+    ["⏰ 집결",      "10.31(토) 오전 11:30", "이천 임금님쌀밥집"],
+    ["🍚 점심",      "임금님쌀밥집",         "이천 경충대로 3134"],
+    ["🏨 회의 · 숙박", "여주 썬밸리호텔",      "대상 : 전국 방장님"],
   ],
   agenda: [
-    "하반기 활동 결과 공유",
-    "지역방 운영 가이드",
-    "신규 회원 안내 방안",
-    "지역방 사례 나눔",
+    ["01", "전국<br>응원 방향",        "1일차 15:30"],
+    ["02", "총공 화력<br>응원 방향",   "1일차 15:30"],
+    ["03", "응원 서포트<br>& 기타",    "1일차 19:30"],
   ],
-  note:  "※ 참석 여부는 ○월 ○일까지 운영진에게 알려주세요.",
-  contact: "운영진 ○○○ · 오픈채팅 ‘영웅시대 방장방’",
-  date:  "2026년 ○월 ○일 (○) · ○○○○ 세미나실",
+  askTitle: "💡 방장님께 부탁드려요",
+  ask:   "안건 1·2·3에 대한 우리 방의 의견과 아이디어를 미리 모아 와 주세요!",
+  note:  "※ 타임테이블은 가안이며 변동될 수 있습니다.",
+  where: "10.31(토) ~ 11.1(일) · 여주 썬밸리호텔",
 };
 
-// type: main(본 순서) · rest(휴식/접수 등 흐리게) · 비워두면 기본
-const TIMETABLE = [
-  { from:"12:30", to:"13:00", title:"접수 및 입장",      desc:"명찰 수령 · 자리 안내",                 type:"rest" },
-  { from:"13:00", to:"13:10", title:"개회 · 인사말",     desc:"운영진 인사 및 오늘 순서 안내" },
-  { from:"13:10", to:"13:50", title:"하반기 활동 결과", desc:"스트리밍 · 라디오 신청 · 인증 모자이크", type:"main", part:"1부" },
-  { from:"13:50", to:"14:00", title:"휴식",              desc:"",                                       type:"rest" },
-  { from:"14:00", to:"15:00", title:"안건 논의",         desc:"지역방 운영 가이드 · 신규 회원 안내",    type:"main", part:"2부" },
-  { from:"15:00", to:"15:40", title:"지역방 사례 나눔", desc:"지역별 발표 (방별 3분 내외)",             type:"main", part:"3부" },
-  { from:"15:40", to:"16:00", title:"질의응답 · 건의",  desc:"자유롭게 의견을 나눠주세요" },
-  { from:"16:00", to:"",      title:"폐회 · 단체사진",  desc:"" },
+// hl: true 면 노란색 강조 (안건 시간)
+const DAYS = [
+  { name:"1일차", date:"10.31 토", rows:[
+    ["11:30", "집결 · 점심 식사 (이천 임금님쌀밥집)"],
+    ["13:00", "카페 이동 · 뉴욕 타임스퀘어 결산보고 ☕"],
+    ["14:30", "호텔 이동"],
+    ["15:00", "체크인 · 회의 준비"],
+    ["15:30", "안건 1 · 전국 응원 방향<br>안건 2 · 총공 화력 응원 방향", true],
+    ["17:10", "Tea break"],
+    ["17:20", "선물 나눔 · 행운권 추첨 🎁"],
+    ["18:00", "저녁 식사 (호텔 11층)"],
+    ["19:30", "안건 3 · 응원 서포트 관련 & 기타", true],
+    ["21:00", "팀 레크리에이션 🎉"],
+    ["22:00~", "취침 및 자율 시간"],
+  ]},
+  { name:"2일차", date:"11.1 일", rows:[
+    ["07:00", "스파 & 휴식 ♨️ (희망자)"],
+    ["08:30", "조식"],
+    ["10:00", "체크아웃"],
+    ["10:30", "신륵사 산책 🍂"],
+    ["12:00", "여주아울렛 이동 🛍️"],
+    ["13:00", "점심 식사"],
+    ["14:00~", "자율 시간 · 귀가"],
+  ], ask:true },
 ];
 </script>
 
 <section class="page p1">
-  <div class="hero">
-    <div class="kicker">전국 지역방 방장 모임</div>
-    <div class="year" id="year"></div>
-    <h1 id="title"></h1>
-    <div class="gold-rule" style="margin-top:16mm"></div>
-    <p class="lead" id="lead"></p>
-  </div>
-  <dl class="info" id="rows"></dl>
-  <div class="agenda"><h2>주요 안건</h2><ol id="agenda"></ol></div>
-  <p class="note" id="note"></p>
-  <div class="foot"><div class="q"><b>문의</b><span id="contact"></span></div><div class="brand">영웅시대</div></div>
+  <span class="badge" id="badge1"></span>
+  <h1>전국<br><span class="sky">방장회의</span> 안내</h1>
+  <p class="lead" id="lead"></p>
+  <div class="info" id="cards"></div>
+  <div class="sec">회의 안건</div>
+  <div class="agenda" id="agenda"></div>
+  <div class="ask" id="ask1"></div>
+  <div class="foot"><p class="note" id="note1"></p><div class="brand">영웅시대</div></div>
 </section>
 
 <section class="page p2">
-  <div class="hero">
-    <div class="kicker" id="kicker2"></div>
-    <h1>타임테이블</h1>
-    <p class="date" id="date"></p>
-  </div>
-  <div class="tt" id="tt"></div>
-  <div class="foot"><div class="q"><b>문의</b><span id="contact2"></span></div><div class="brand">영웅시대</div></div>
+  <span class="badge" id="badge2"></span>
+  <h1><span class="sky">타임</span>테이블</h1>
+  <p class="lead" id="where"></p>
+  <div class="days" id="days"></div>
+  <div class="foot"><p class="note" id="note2"></p><div class="brand">영웅시대</div></div>
 </section>
 
 <script>
 const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("year").textContent = INFO.year;
-$("title").textContent = INFO.title;
-$("lead").innerHTML = INFO.lead;
-$("kicker2").textContent = INFO.year + " " + INFO.title;
-$("date").textContent = INFO.date;
-$("note").textContent = INFO.note;
-$("contact").textContent = $("contact2").textContent = INFO.contact;
-$("rows").innerHTML = INFO.rows.map(([k, v, s]) =>
-  `<div class="row"><dt>${esc(k)}</dt><dd>${esc(v)}${s ? `<small>${esc(s)}</small>` : ""}</dd></div>`).join("");
-$("agenda").innerHTML = INFO.agenda.map((a, i) => `<li><span>${i + 1}</span>${esc(a)}</li>`).join("");
-$("tt").innerHTML = TIMETABLE.map(r => `
-  <div class="slot ${r.type || ""}">
-    <div class="t">${esc(r.from)}${r.to ? `<i>~ ${esc(r.to)}</i>` : ""}</div>
-    <div class="dot"></div>
-    <div class="c"><h3>${r.part ? `<em>${esc(r.part)}</em>` : ""}${esc(r.title)}</h3>${r.desc ? `<p>${esc(r.desc)}</p>` : ""}</div>
+const askHTML = `<b>${INFO.askTitle}</b><p>${INFO.ask}</p>`;
+$("badge1").textContent = $("badge2").textContent = INFO.badge;
+$("lead").textContent = INFO.lead;
+$("where").textContent = INFO.where;
+$("note1").textContent = $("note2").textContent = INFO.note;
+$("ask1").innerHTML = askHTML;
+$("cards").innerHTML = INFO.cards.map(([k, v, s]) =>
+  `<div class="card"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
+$("agenda").innerHTML = INFO.agenda.map(([n, t, w]) =>
+  `<div class="card"><div class="n">${n}</div><div class="t">${t}</div><div class="w">${w}</div></div>`).join("");
+$("days").innerHTML = DAYS.map(d => `
+  <div class="card day">
+    <h2>${d.name}<span>${d.date}</span></h2>
+    ${d.rows.map(([tm, ds, hl]) => `<div class="r${hl ? " hl" : ""}"><div class="tm">${tm}</div><div class="ds">${ds}</div></div>`).join("")}
+    ${d.ask ? `<div class="ask">${askHTML}</div>` : ""}
   </div>`).join("");
 </script>
 </body></html>
