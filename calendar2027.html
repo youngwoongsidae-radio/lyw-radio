@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 마음을 나누는 사람들 캘린더</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ───────────────────────────────────────────────
+   2027 마음을 나누는 사람들 재단 — 캘린더 & 다이어리
+   A4 가로(297×210mm). A3로 확대 인쇄해도 비율이 같습니다.
+   앞면: 월간 달력(날짜 메모) + 주간 할 일 + 월간 할 일 + 메모
+   뒷면: 이달의 좋은 글귀 + 4대 사업 + 이달을 돌아보며
+   ─────────────────────────────────────────────── */
+@page { size: 297mm 210mm; margin: 0; }
+:root {
+  --ink: #2c2f3f;
+  --muted: #8b8e9c;
+  --faint: #c9c7c1;
+  --line: #e4e1da;
+  --paper: #fffdf9;
+  --sun: #d6453f;
+  --sat: #3769ad;
+  --ac: #4a78a8;
+}
+/* 월별 색(--ac)이 바뀌는 곳마다 파생 색을 다시 계산 */
+:root, .page, .ym {
+  --ac-soft: color-mix(in srgb, var(--ac) 10%, white);
+  --ac-mid: color-mix(in srgb, var(--ac) 28%, white);
+  --ac-deep: color-mix(in srgb, var(--ac) 80%, black);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #e9e6e0; }
+body {
+  font-family: "Noto Sans KR", "WenQuanYi Zen Hei", sans-serif;
+  color: var(--ink);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.sheet-label {
+  width: 297mm; margin: 10mm auto 2mm; font-size: 12px; color: #6d6a64;
+  letter-spacing: .04em;
+}
+.page {
+  width: 297mm; height: 210mm; margin: 0 auto 6mm;
+  background: var(--paper); position: relative; overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,.12);
+  padding: 9mm 10mm 8mm;
+}
+@media print {
+  html, body { background: none; }
+  .sheet-label { display: none; }
+  .page { margin: 0; box-shadow: none; page-break-after: always; break-after: page; }
+}
+@media screen and (max-width: 1150px) {
+  body { zoom: .5; }
+}
+/* 벽걸이 구멍 표시 (상단 가운데) */
+.hole { position: absolute; top: 3.2mm; left: 50%; width: 5mm; height: 5mm; margin-left: -2.5mm;
+  border-radius: 50%; border: .3mm solid var(--faint); }
+
+/* ── 공통 ── */
+.brand { display: flex; align-items: center; gap: 2mm; font-weight: 700; font-size: 9pt; letter-spacing: -.01em; }
+.brand svg { width: 5mm; height: 5mm; }
+.box-title { font-size: 8.5pt; font-weight: 700; color: var(--ac-deep); display: flex; align-items: baseline; gap: 1.6mm; margin-bottom: 1.6mm; }
+.box-title small { font-size: 6.5pt; font-weight: 500; color: var(--muted); letter-spacing: .08em; }
+.ruled { display: flex; flex-direction: column; }
+.ruled > i { flex: 1; border-bottom: .2mm dotted #cfccc4; display: block; }
+.check { display: flex; flex-direction: column; }
+.check > i { flex: 1; display: flex; align-items: flex-end; gap: 1.6mm; border-bottom: .2mm dotted #cfccc4; padding-bottom: .9mm; }
+.check > i::before { content: ""; width: 2.6mm; height: 2.6mm; border: .25mm solid var(--ac); border-radius: .6mm; flex: none; background: #fff; }
+
+/* ── 앞면 ── */
+.front { display: grid; grid-template-columns: 1fr 64mm; gap: 6mm; height: 100%; }
+.f-left { display: flex; flex-direction: column; min-height: 0; }
+.f-head { display: flex; align-items: flex-end; gap: 4mm; margin-bottom: 3.5mm; }
+.mnum { font-size: 46pt; font-weight: 900; line-height: .82; color: var(--ac); letter-spacing: -.04em; }
+.mname { padding-bottom: .6mm; }
+.mname b { display: block; font-size: 15pt; font-weight: 700; line-height: 1.1; }
+.mname span { font-size: 7.5pt; letter-spacing: .32em; color: var(--muted); font-weight: 500; }
+.f-head .focus { margin-left: auto; text-align: right; font-size: 7pt; color: var(--muted); padding-bottom: .6mm; line-height: 1.45; }
+.f-head .focus b { color: var(--ac-deep); font-weight: 700; font-size: 8pt; }
+.cal { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr) 37mm; border-top: .5mm solid var(--ink); min-height: 0; }
+.cal .dh { font-size: 7.5pt; font-weight: 700; text-align: center; padding: 1.4mm 0 1.2mm; border-bottom: .3mm solid var(--ink); }
+.cal .dh.sun { color: var(--sun); } .cal .dh.sat { color: var(--sat); }
+.cal .dh.wk { background: var(--ac); color: #fff; border-bottom-color: var(--ac); }
+.cell { border-bottom: .25mm solid var(--line); border-right: .25mm solid var(--line); padding: 1.2mm 1.4mm 1mm; display: flex; flex-direction: column; min-height: 0; position: relative; }
+.cell:nth-child(8n+1) { border-left: .25mm solid var(--line); }
+.cell .d { display: flex; align-items: baseline; gap: 1.2mm; height: 5mm; flex: none; }
+.cell .d b { font-size: 11pt; font-weight: 700; line-height: 1; }
+.cell .d em { font-style: normal; font-size: 5.6pt; font-weight: 500; color: var(--sun); line-height: 1.15; letter-spacing: -.03em; }
+.cell .d em.ann { color: var(--muted); }
+.cell.sun .d b, .cell.hol .d b { color: var(--sun); }
+.cell.sat:not(.hol) .d b { color: var(--sat); }
+.cell .ruled { flex: 1; }
+.cell.out { background: repeating-linear-gradient(135deg, transparent 0 2mm, #f3f0ea 2mm 2.4mm); }
+.cell.out .d b { color: var(--faint); font-weight: 400; }
+.cell.today-mark .d b { }
+.wkcell { background: var(--ac-soft); border-bottom: .25mm solid var(--ac-mid); padding: 1.2mm 2mm 1mm; display: flex; flex-direction: column; min-height: 0; }
+.wkcell .wl { font-size: 6pt; color: var(--ac-deep); font-weight: 700; height: 5mm; display: flex; align-items: baseline; gap: 1.4mm; flex: none; }
+.wkcell .wl span { font-weight: 400; color: var(--muted); }
+.wkcell .check { flex: 1; }
+.wkcell .check > i { border-bottom-color: var(--ac-mid); }
+
+.f-right { display: flex; flex-direction: column; gap: 3.2mm; min-height: 0; }
+.f-right .brand { justify-content: flex-end; color: var(--ink); height: 9mm; align-items: flex-end; padding-bottom: 1mm; }
+.minis { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; padding: 2.4mm 2.4mm 2mm; border-radius: 2mm; background: #f5f2ec; }
+.mini .mt { font-size: 6.5pt; font-weight: 700; margin-bottom: .8mm; }
+.mini .mt span { color: var(--muted); font-weight: 400; }
+.mini .mg { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 5pt; text-align: center; row-gap: .3mm; }
+.mini .mg .s { color: var(--sun); } .mini .mg .t { color: var(--sat); }
+.mini .mg .h { color: var(--muted); font-weight: 700; }
+.goal { border: .35mm solid var(--ac); border-radius: 2mm; padding: 2mm 2.6mm 1.6mm; height: 22mm; display: flex; flex-direction: column; }
+.goal .ruled { flex: 1; }
+.todo { height: 52mm; display: flex; flex-direction: column; }
+.todo .check { flex: 1; }
+.memo { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.memo .ruled { flex: 1; }
+.foot { font-size: 6pt; color: var(--muted); text-align: right; letter-spacing: .06em; }
+
+/* ── 뒷면 ── */
+.back { display: grid; grid-template-rows: 1fr 76mm; gap: 6mm; height: 100%; }
+.quote {
+  position: relative; border-radius: 4mm; overflow: hidden; padding: 11mm 16mm 10mm 16mm;
+  background: linear-gradient(135deg, var(--ac-soft) 0%, color-mix(in srgb, var(--ac) 22%, white) 100%);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.quote .bg { position: absolute; inset: 0; pointer-events: none; }
+.quote .tag { position: absolute; top: 7mm; left: 16mm; font-size: 7.5pt; letter-spacing: .28em; color: var(--ac-deep); font-weight: 700; }
+.quote .mark { font-family: "Gowun Batang", serif; font-size: 70pt; line-height: .6; color: var(--ac); opacity: .5; height: 12mm; }
+.quote blockquote { font-family: "Gowun Batang", serif; font-size: 21pt; line-height: 1.6; font-weight: 700; color: var(--ink); max-width: 200mm; position: relative; word-break: keep-all; }
+.quote cite { display: block; margin-top: 5mm; font-style: normal; font-size: 9.5pt; color: var(--ac-deep); font-weight: 500; position: relative; }
+.quote cite::before { content: ""; display: inline-block; width: 8mm; height: .35mm; background: var(--ac); vertical-align: middle; margin-right: 2.5mm; }
+.quote .bigm { position: absolute; right: 12mm; bottom: 4mm; font-size: 110pt; font-weight: 900; color: #fff; opacity: .55; line-height: 1; letter-spacing: -.05em; }
+.quote .qbrand { position: absolute; top: 6mm; right: 12mm; }
+
+.b-bottom { display: grid; grid-template-columns: 1fr 78mm; gap: 6mm; min-height: 0; }
+.biz { display: flex; flex-direction: column; min-height: 0; }
+.biz-head { display: flex; align-items: baseline; gap: 2.5mm; margin-bottom: 2.6mm; }
+.biz-head b { font-size: 11pt; font-weight: 900; }
+.biz-head span { font-size: 7pt; color: var(--muted); }
+.cards { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; min-height: 0; }
+.card { border: .3mm solid var(--line); border-radius: 3mm; padding: 3.2mm 3.2mm 3mm; display: flex; flex-direction: column; background: #fff; position: relative; }
+.card .no { font-size: 7pt; font-weight: 900; color: var(--muted); letter-spacing: .1em; }
+.card .ic { width: 10mm; height: 10mm; border-radius: 50%; background: #f3f0ea; display: grid; place-items: center; margin: 2mm 0 2.4mm; }
+.card .ic svg { width: 5.6mm; height: 5.6mm; stroke: var(--ink); }
+.card h4 { font-size: 9.5pt; font-weight: 700; margin-bottom: 1.4mm; letter-spacing: -.02em; }
+.card p { font-size: 6.8pt; line-height: 1.6; color: #55586a; word-break: keep-all; }
+.card .act { margin-top: auto; display: flex; flex-direction: column; height: 15mm; }
+.card .act > span { font-size: 5.8pt; font-weight: 700; color: var(--muted); letter-spacing: .04em; }
+.card .act .ruled { flex: 1; }
+.card.on .act > span { color: rgba(255,255,255,.85); }
+.card.on .ruled > i { border-bottom-color: rgba(255,255,255,.55); }
+.card.on { background: var(--ac); border-color: var(--ac); color: #fff; }
+.card.on .no, .card.on p { color: rgba(255,255,255,.88); }
+.card.on .ic { background: rgba(255,255,255,.22); }
+.card.on .ic svg { stroke: #fff; }
+.card .badge { position: absolute; top: 2.6mm; right: 2.6mm; font-size: 5.6pt; font-weight: 700; background: #fff; color: var(--ac-deep); border-radius: 5mm; padding: .5mm 1.8mm; }
+.reflect { border-radius: 3mm; background: #f5f2ec; padding: 3.2mm 4mm 3mm; display: flex; flex-direction: column; min-height: 0; }
+.reflect .rq { flex: 1; display: flex; flex-direction: column; min-height: 0; margin-top: 1.4mm; }
+.reflect .rq > span { font-size: 6.8pt; font-weight: 700; color: var(--ac-deep); }
+.reflect .rq > span::before { content: "♥ "; color: var(--ac); }
+.reflect .ruled { flex: 1; }
+
+/* ── 표지 ── */
+.cover { padding: 0; background: #fbf6ef; }
+.cover .art { position: absolute; inset: 0; }
+.cover .ct { position: absolute; left: 22mm; top: 34mm; }
+.cover .yr { font-size: 92pt; font-weight: 900; letter-spacing: -.05em; line-height: .9; color: #2c2f3f; }
+.cover .yr span { color: #e0695a; }
+.cover h1 { font-size: 25pt; font-weight: 900; margin-top: 7mm; letter-spacing: -.03em; }
+.cover h2 { font-family: "Gowun Batang", serif; font-size: 13pt; font-weight: 400; margin-top: 3.5mm; color: #5b5e6e; }
+.cover .sub { margin-top: 12mm; font-size: 8pt; letter-spacing: .3em; color: #8b8e9c; }
+.cover .strip { position: absolute; left: 22mm; bottom: 20mm; display: flex; gap: 6mm; }
+.cover .strip div { display: flex; align-items: center; gap: 2mm; font-size: 8pt; font-weight: 500; color: #4a4d5c; }
+.cover .strip svg { width: 6mm; height: 6mm; stroke: #e0695a; }
+
+/* ── 연간 ── */
+.year { display: grid; grid-template-columns: 1fr 70mm; gap: 7mm; height: 100%; }
+.y-left { display: flex; flex-direction: column; }
+.y-head { display: flex; align-items: flex-end; gap: 4mm; margin-bottom: 5mm; }
+.y-head b { font-size: 32pt; font-weight: 900; line-height: .85; letter-spacing: -.04em; color: #e0695a; }
+.y-head span { font-size: 11pt; font-weight: 700; padding-bottom: .5mm; }
+.ygrid { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); gap: 4mm 6mm; }
+.ym .mt { font-size: 9pt; font-weight: 900; margin-bottom: 1.4mm; color: var(--ac); border-bottom: .3mm solid var(--ac); padding-bottom: .8mm; display: flex; justify-content: space-between; align-items: baseline; }
+.ym .mt span { font-size: 5.5pt; color: var(--muted); font-weight: 500; letter-spacing: .15em; }
+.ym .mg { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 8pt; text-align: center; row-gap: 1.7mm; }
+.ym .mg .s { color: var(--sun); } .ym .mg .t { color: var(--sat); }
+.ym .mg .h { color: var(--muted); font-weight: 700; font-size: 6.2pt; }
+.ym .mg .hol { color: var(--sun); font-weight: 700; }
+.y-right { display: flex; flex-direction: column; gap: 5mm; }
+.y-right .brand { justify-content: flex-end; }
+.y-box { border-radius: 3mm; padding: 3.5mm 4mm 3mm; display: flex; flex-direction: column; }
+.y-box.g { border: .35mm solid #e0695a; flex: 1.1; }
+.y-box.d { background: #f5f2ec; flex: 1; }
+.y-box .ruled, .y-box .check { flex: 1; }
+.y-box .box-title { color: #c8513f; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+/* ════════════════ 수정하기 쉬운 데이터 영역 ════════════════
+   재단 이름, 4대 사업, 매월 글귀를 여기서 바꾸면 전체 페이지에 반영됩니다. */
+const FOUNDATION = "마음을 나누는 사람들";
+const SLOGAN = "함께 나누는 열두 달";
+const YEAR = 2027;
+
+// ※ 4대 사업 문구는 예시입니다. 재단의 실제 사업명과 설명으로 바꿔 주세요.
+//   quarter: 해당 분기(1~4)에 '이번 분기 집중 사업'으로 강조됩니다.
+const PROJECTS = [
+  { title: "나눔 · 돌봄 사업", en: "CARE",      icon: "care",  quarter: 1,
+    desc: "홀로 지내는 어르신과 도움이 필요한 가정을 찾아가 생활과 마음을 함께 돌봅니다." },
+  { title: "교육 · 장학 사업", en: "EDUCATION", icon: "book",  quarter: 2,
+    desc: "꿈을 키우는 아이들과 청소년에게 배움의 기회와 장학금을 전합니다." },
+  { title: "문화 · 소통 사업", en: "CULTURE",   icon: "music", quarter: 3,
+    desc: "음악과 이야기로 이웃의 마음을 잇는 문화 나눔 활동을 펼칩니다." },
+  { title: "지역 · 봉사 사업", en: "COMMUNITY", icon: "home",  quarter: 4,
+    desc: "자원봉사자와 함께 지역 곳곳에 따뜻한 손길과 온기를 보탭니다." },
+];
+
+const QUOTES = [
+  ["지금 있는 곳에서,<br>가진 것으로,<br>할 수 있는 일을 하라.", "시어도어 루스벨트"],
+  ["행복은 나눌수록 커지고,<br>슬픔은 나눌수록 작아진다.", "독일 속담"],
+  ["죽는 날까지 하늘을 우러러<br>한 점 부끄럼이 없기를.", "윤동주, 「서시」"],
+  ["남에게 베풀어서<br>가난해진 사람은 아무도 없다.", "안네 프랑크"],
+  ["우리는 위대한 일을 할 수 없습니다.<br>다만 작은 일을 큰 사랑으로 할 수 있을 뿐입니다.", "마더 테레사"],
+  ["덕은 외롭지 않으니,<br>반드시 이웃이 있다.", "공자, 『논어』"],
+  ["가장 좋은 것은 물과 같다.<br>물은 만물을 이롭게 하면서도 다투지 않는다.", "노자, 『도덕경』"],
+  ["혼자 가면 빨리 가지만,<br>함께 가면 멀리 간다.", "아프리카 속담"],
+  ["사람은 무엇으로 사는가.<br>사람은 사랑으로 산다.", "레프 톨스토이"],
+  ["어둠은 어둠을 몰아낼 수 없다. 오직 빛만이 할 수 있다.<br>미움은 미움을 몰아낼 수 없다. 오직 사랑만이 할 수 있다.", "마틴 루서 킹 주니어"],
+  ["감사하는 마음은<br>모든 미덕의 어머니다.", "키케로"],
+  ["혼자서 할 수 있는 일은 작지만,<br>함께라면 큰일을 해낼 수 있다.", "헬렌 켈러"],
+];
+
+// 2027년 공휴일 (음력 환산 확인: 설날 2/7, 부처님오신날 5/13, 추석 9/15)
+const HOLIDAYS = {
+  "1-1": "신정",
+  "2-6": "설 연휴", "2-7": "설날", "2-8": "설 연휴", "2-9": "대체공휴일",
+  "3-1": "삼일절", "5-5": "어린이날", "5-13": "부처님오신날", "6-6": "현충일",
+  "8-15": "광복절", "8-16": "대체공휴일",
+  "9-14": "추석 연휴", "9-15": "추석", "9-16": "추석 연휴",
+  "10-3": "개천절", "10-4": "대체공휴일", "10-9": "한글날", "10-11": "대체공휴일",
+  "12-25": "성탄절", "12-27": "대체공휴일",
+};
+// 기념일 (회색, 쉬는 날 아님)
+const ANNIV = { "4-5": "식목일", "5-8": "어버이날", "5-15": "스승의 날", "7-17": "제헌절", "11-11": "농업인의 날" };
+
+const ACCENTS = ["#4a78a8","#c4597d","#d9825a","#d96f86","#5a9a6a","#3a9496",
+                 "#2f86b0","#d6952e","#c07a35","#b4573a","#86684f","#2f6b56"];
+const EN = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+/* ═══════════════════════════════════════════════════════ */
+
+const ICONS = {
+  heart: '<path d="M12 20.5s-7.5-4.6-9.6-9.1A5.3 5.3 0 0 1 12 6.3a5.3 5.3 0 0 1 9.6 5.1C19.5 15.9 12 20.5 12 20.5z"/>',
+  care:  '<path d="M12 12.5s-3.2-2-4.1-3.9a2.2 2.2 0 0 1 4.1-1.8 2.2 2.2 0 0 1 4.1 1.8c-.9 1.9-4.1 3.9-4.1 3.9z"/><path d="M2.5 15.5c2 0 3.6.8 4.8 1.8h4.2a1.5 1.5 0 0 1 0 3H8"/><path d="M2.5 21h9.8l7.6-4.2a1.6 1.6 0 0 0-1.7-2.7l-4.3 2.2"/>',
+  book:  '<path d="M2.5 5.2c3.2-1.2 6.7-.9 9.5 1.1 2.8-2 6.3-2.3 9.5-1.1v13.6c-3.2-1.2-6.7-.9-9.5 1.1-2.8-2-6.3-2.3-9.5-1.1z"/><path d="M12 6.3v13.6"/>',
+  music: '<path d="M9 17.5V5.5l11-2v12"/><circle cx="6.2" cy="17.5" r="2.8"/><circle cx="17.2" cy="15.5" r="2.8"/>',
+  home:  '<path d="M3 11.2 12 4l9 7.2"/><path d="M5.2 9.8V20h13.6V9.8"/><path d="M12 17.6s-2.3-1.4-2.9-2.7a1.5 1.5 0 0 1 2.9-1.2 1.5 1.5 0 0 1 2.9 1.2c-.6 1.3-2.9 2.7-2.9 2.7z"/>',
+};
+const svg = (name, extra = "") =>
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICONS[name]}</svg>`;
+const logo = (color) =>
+  `<svg viewBox="0 0 24 24"><path d="${ICONS.heart.match(/d="([^"]+)"/)[1]}" fill="${color}"/></svg>`;
+const brand = (color = "#e0695a") => `<div class="brand">${logo(color)}${FOUNDATION}</div>`;
+const lines = (n) => `<div class="ruled">${"<i></i>".repeat(n)}</div>`;
+const checks = (n) => `<div class="check">${"<i></i>".repeat(n)}</div>`;
+
+const daysIn = (m) => new Date(YEAR, m, 0).getDate();           // m: 1~12
+const firstDow = (m) => new Date(YEAR, m - 1, 1).getDay();
+const weeksIn = (m) => Math.ceil((firstDow(m) + daysIn(m)) / 7);
+const DOW = ["일","월","화","수","목","금","토"];
+
+function miniGrid(y, m, opts = {}) {
+  const d0 = new Date(y, m - 1, 1).getDay(), n = new Date(y, m, 0).getDate();
+  let h = DOW.map((d) => `<div class="h">${d}</div>`).join("");
+  for (let i = 0; i < d0; i++) h += "<div></div>";
+  for (let d = 1; d <= n; d++) {
+    const w = (d0 + d - 1) % 7;
+    const hol = opts.holidays && y === YEAR && HOLIDAYS[`${m}-${d}`];
+    h += `<div class="${hol ? "hol" : w === 0 ? "s" : w === 6 ? "t" : ""}">${d}</div>`;
+  }
+  return `<div class="mg">${h}</div>`;
+}
+function mini(y, m) {
+  return `<div class="mini"><div class="mt">${m}월 <span>${y}</span></div>${miniGrid(y, m)}</div>`;
+}
+const quarterOf = (m) => Math.ceil(m / 3);
+const focusProject = (m) => PROJECTS.find((p) => p.quarter === quarterOf(m));
+
+function front(m) {
+  const d0 = firstDow(m), n = daysIn(m), W = weeksIn(m);
+  let cells = DOW.map((d, i) => `<div class="dh ${i === 0 ? "sun" : i === 6 ? "sat" : ""}">${d}</div>`).join("")
+            + `<div class="dh wk">이번 주 할 일</div>`;
+  const lineCount = W === 6 ? 3 : 4;
+  for (let w = 0; w < W; w++) {
+    let first = null, last = null;
+    for (let i = 0; i < 7; i++) {
+      const d = w * 7 + i - d0 + 1;
+      if (d < 1 || d > n) { cells += `<div class="cell out"><div class="d"></div></div>`; continue; }
+      first ??= d; last = d;
+      const key = `${m}-${d}`, hol = HOLIDAYS[key], ann = ANNIV[key];
+      const cls = ["cell", i === 0 ? "sun" : i === 6 ? "sat" : "", hol ? "hol" : ""].join(" ");
+      const label = hol ? `<em>${hol}</em>` : ann ? `<em class="ann">${ann}</em>` : "";
+      cells += `<div class="${cls}"><div class="d"><b>${d}</b>${label}</div>${lines(lineCount)}</div>`;
+    }
+    cells += `<div class="wkcell"><div class="wl">${w + 1}주차 <span>${first === last ? `${m}.${first}` : `${m}.${first} – ${m}.${last}`}</span></div>${checks(W === 6 ? 3 : 4)}</div>`;
+  }
+  const prev = m === 1 ? [YEAR - 1, 12] : [YEAR, m - 1];
+  const next = m === 12 ? [YEAR + 1, 1] : [YEAR, m + 1];
+  const fp = focusProject(m);
+  return `
+  <section class="page" style="--ac:${ACCENTS[m - 1]}">
+    <div class="hole"></div>
+    <div class="front">
+      <div class="f-left">
+        <div class="f-head">
+          <div class="mnum">${String(m).padStart(2, "0")}</div>
+          <div class="mname"><b>${m}월</b><span>${EN[m - 1]} ${YEAR}</span></div>
+          <div class="focus">${quarterOf(m)}분기 집중 사업<br><b>${fp.title}</b></div>
+        </div>
+        <div class="cal" style="grid-template-rows: auto repeat(${W}, 1fr)">${cells}</div>
+      </div>
+      <div class="f-right">
+        ${brand(ACCENTS[m - 1])}
+        <div class="minis">${mini(...prev)}${mini(...next)}</div>
+        <div class="goal"><div class="box-title">이달의 목표 <small>GOAL</small></div>${lines(2)}</div>
+        <div class="todo"><div class="box-title">월간 할 일 <small>TO DO</small></div>${checks(8)}</div>
+        <div class="memo"><div class="box-title">메모 <small>MEMO</small></div>${lines(9)}</div>
+        <div class="foot">${SLOGAN} · ${YEAR}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function quoteArt() {
+  // 은은한 원과 하트 장식
+  return `<svg class="bg" viewBox="0 0 277 110" preserveAspectRatio="xMidYMid slice">
+    <circle cx="250" cy="10" r="46" fill="#fff" opacity=".35"/>
+    <circle cx="214" cy="96" r="30" fill="#fff" opacity=".28"/>
+    <circle cx="20" cy="104" r="22" fill="#fff" opacity=".3"/>
+    <g transform="translate(196 20) scale(1.3)" fill="var(--ac)" opacity=".2">${ICONS.heart}</g>
+    <g transform="translate(226 38) scale(.65)" fill="var(--ac)" opacity=".16">${ICONS.heart}</g>
+  </svg>`;
+}
+
+function back(m) {
+  const [q, who] = QUOTES[m - 1];
+  const fp = focusProject(m);
+  const cards = PROJECTS.map((p, i) => `
+    <div class="card ${p === fp ? "on" : ""}">
+      ${p === fp ? `<div class="badge">${quarterOf(m)}분기 집중</div>` : ""}
+      <div class="no">0${i + 1} · ${p.en}</div>
+      <div class="ic">${svg(p.icon)}</div>
+      <h4>${p.title}</h4>
+      <p>${p.desc}</p>
+      <div class="act"><span>이달의 참여 · 활동 기록</span>${lines(2)}</div>
+    </div>`).join("");
+  return `
+  <section class="page" style="--ac:${ACCENTS[m - 1]}">
+    <div class="hole"></div>
+    <div class="back">
+      <div class="quote">
+        ${quoteArt()}
+        <div class="tag">${EN[m - 1]} · ${m}월의 좋은 글</div>
+        <div class="qbrand">${brand(ACCENTS[m - 1])}</div>
+        <div class="mark">“</div>
+        <blockquote>${q}</blockquote>
+        <cite>${who}</cite>
+        <div class="bigm">${String(m).padStart(2, "0")}</div>
+      </div>
+      <div class="b-bottom">
+        <div class="biz">
+          <div class="biz-head"><b>${FOUNDATION} 4대 사업</b><span>우리가 함께 나누는 네 가지 마음</span></div>
+          <div class="cards">${cards}</div>
+        </div>
+        <div class="reflect">
+          <div class="box-title">이달을 돌아보며 <small>DIARY</small></div>
+          <div class="rq"><span>감사했던 일</span>${lines(2)}</div>
+          <div class="rq"><span>내가 나눈 마음</span>${lines(2)}</div>
+          <div class="rq"><span>다음 달의 다짐</span>${lines(2)}</div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function cover() {
+  const icons = PROJECTS.map((p) => `<div>${svg(p.icon)}${p.title}</div>`).join("");
+  return `
+  <section class="page cover">
+    <div class="hole"></div>
+    <svg class="art" viewBox="0 0 297 210" preserveAspectRatio="xMidYMid slice">
+      <circle cx="232" cy="92" r="70" fill="#f7dcd2"/>
+      <circle cx="268" cy="30" r="30" fill="#fde9c7"/>
+      <circle cx="196" cy="168" r="26" fill="#d9e8e2"/>
+      <circle cx="278" cy="170" r="14" fill="#d8e3f1"/>
+      <g transform="translate(184 46) scale(4)" fill="#e0695a">${ICONS.heart}</g>
+      <g transform="translate(208 70) scale(2.1)" fill="#fff" opacity=".9">${ICONS.heart}</g>
+      <g transform="translate(150 132) scale(1)" fill="#e0a03a" opacity=".8">${ICONS.heart}</g>
+      <g transform="translate(262 120) scale(.8)" fill="#5a9a6a" opacity=".7">${ICONS.heart}</g>
+      <g transform="translate(160 22) scale(.7)" fill="#4a78a8" opacity=".6">${ICONS.heart}</g>
+    </svg>
+    <div class="ct">
+      <div class="yr">20<span>27</span></div>
+      <h1>${FOUNDATION}</h1>
+      <h2>${SLOGAN} — 캘린더 &amp; 다이어리</h2>
+      <div class="sub">CALENDAR · DIARY · ${YEAR}</div>
+    </div>
+    <div class="strip">${icons}</div>
+  </section>`;
+}
+
+function yearPage() {
+  let g = "";
+  for (let m = 1; m <= 12; m++)
+    g += `<div class="ym" style="--ac:${ACCENTS[m - 1]}"><div class="mt">${m}월<span>${EN[m - 1]}</span></div>${miniGrid(YEAR, m, { holidays: true })}</div>`;
+  return `
+  <section class="page">
+    <div class="hole"></div>
+    <div class="year">
+      <div class="y-left">
+        <div class="y-head"><b>${YEAR}</b><span>한눈에 보는 한 해</span></div>
+        <div class="ygrid">${g}</div>
+      </div>
+      <div class="y-right">
+        ${brand()}
+        <div class="y-box g"><div class="box-title">${YEAR} 나의 다짐 <small>RESOLUTION</small></div>${lines(6)}</div>
+        <div class="y-box d"><div class="box-title">꼭 기억할 날 <small>SPECIAL DAYS</small></div>${checks(7)}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
+let html = `<div class="sheet-label">표지 · 앞면</div>${cover()}<div class="sheet-label">표지 · 뒷면 (연간 달력)</div>${yearPage()}`;
+for (let m = 1; m <= 12; m++) {
+  html += `<div class="sheet-label">${m}월 · 앞면 (달력 · 할 일 · 메모)</div>${front(m)}`;
+  html += `<div class="sheet-label">${m}월 · 뒷면 (좋은 글 · 4대 사업)</div>${back(m)}`;
+}
+document.getElementById("root").innerHTML = html;
+</script>
+</body>
+</html>
